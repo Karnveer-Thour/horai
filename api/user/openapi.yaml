@@ -1,0 +1,2165 @@
+openapi: 3.0.0
+info:
+  title: User
+  version: '1.0'
+servers:
+  - description: local
+    url: 'http://localhost:3001'
+  - description: dev
+    url: 'https://api-user-dot-horai-dev-scheme-verge-v2.an.r.appspot.com'
+paths:
+  /hc:
+    get:
+      summary: Health Check
+      tags:
+        - app
+      responses:
+        200:
+          description: OK
+  /me:
+    get:
+      summary: Get me
+      operationId: getMe
+      tags:
+        - app
+      security:
+        - FirebaseAuthentication: []
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        500:
+          description: Internal Server Error
+  /amos/{amoId}:
+    get:
+      operationId: getAmoById
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - app
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: amoId
+          schema:
+            type: string
+          required: true
+          in: path
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AmoBody'
+        '404':
+          description: Not Found
+    put:
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - app
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: amoId
+          schema:
+            type: string
+          required: true
+          in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AmoBody'
+      responses:
+        204:
+          description: No Content
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server Error
+  /amos:
+    get:
+      summary: Get AMOs
+      operationId: getAmos
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - app
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Amo'
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        500:
+          description: Internal Server Error
+  /v2/amos/deactivate/{amoId}:
+    put:
+      operationId: updateAmoStatus
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - user
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: amoId
+          schema:
+            type: string
+          required: true
+          in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AmoStatusBody'
+      responses:
+        204:
+          description: No Content
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server Error
+  /v2/amos/{amoId}:
+    get:
+      operationId: getAmoByamoId
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - user
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: amoId
+          schema:
+            type: string
+          required: true
+          in: path
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AmoBody'
+        '404':
+          description: Not Found
+    put:
+      operationId: updateAmobyamoId
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - user
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: amoId
+          schema:
+            type: string
+          required: true
+          in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AmoBody'
+      responses:
+        204:
+          description: No Content
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server Error
+    delete:
+      summary: deletes amo by amoId
+      operationId: deleteAmoByamoId
+      tags:
+        - user
+      security:
+        - FirebaseAuthentication: []
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: amoId
+          schema:
+            type: string
+          required: true
+          in: path
+      responses:
+        200:
+          description: OK
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /v2/amos:
+    post:
+      operationId: createAmo
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - user
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AmoBody'
+      responses:
+        204:
+          description: No Content
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server Error
+    get:
+      summary: Get All AMOs
+      operationId: getAllAmos
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - user
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Amo'
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        500:
+          description: Internal Server Error
+  /smbs:
+    get:
+      summary: Get SMBs
+      operationId: getSmbs
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - app
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: amoId
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Smb'
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        500:
+          description: Internal Server Error
+  /smbs/{smbId}:
+    get:
+      summary: Get SMB by id
+      operationId: getSmbById
+      tags:
+        - app
+      security:
+        - FirebaseAuthentication: []
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - $ref: '#/components/parameters/smbId'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Smb'
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+    put:
+      summary: Update SMB
+      operationId: updateSmb
+      tags:
+        - app
+      security:
+        - FirebaseAuthentication: []
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - $ref: '#/components/parameters/smbId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmbBody'
+      responses:
+        204:
+          description: No Content
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /v2/smb/deactivate/{smbId}:
+    put:
+      operationId: deactivateSmb
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - user
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - $ref: '#/components/parameters/smbId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmbStatusBody'
+      responses:
+        204:
+          description: No Content
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server Error
+  /v2/smbs:
+    post:
+      summary: Create SMB
+      operationId: createSmb
+      tags:
+        - user
+      security:
+        - FirebaseAuthentication: []
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmbBody'
+      responses:
+        204:
+          description: No Content
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+    get:
+      summary: Get All SMBs
+      operationId: getAllSmbs
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - user
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Smb'
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        500:
+          description: Internal Server Error
+  /v2/smbs/{smbId}:
+    put:
+      summary: Update Smb
+      operationId: updateSmbBySmbId
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - user
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - $ref: '#/components/parameters/smbId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmbUpdateBody'
+      responses:
+        204:
+          description: No Content
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server Error
+    get:
+      summary: Get v2 SMB by id
+      operationId: getSmbBySmbId
+      tags:
+        - user
+      security:
+        - FirebaseAuthentication: []
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - $ref: '#/components/parameters/smbId'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Smb'
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /v2/smbs/{smbId}/reports:
+    get:
+      summary: Get v2 SMB reports by id
+      operationId: getReportsBySmbId
+      tags:
+        - user
+      security:
+        - FirebaseAuthentication: []
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - $ref: '#/components/parameters/smbId'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Report'
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /v2/smbs/{smbId}/reports/{reportId}:
+    put:
+      summary: Update Report
+      operationId: updateReport
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - user
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - $ref: '#/components/parameters/smbId'
+        - $ref: '#/components/parameters/reportId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportUpdateBody'
+      responses:
+        204:
+          description: No Content
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server Error
+  /coWorkingSpace/theSeatHalki:
+    get:
+      summary: Get The Seat Halki detail
+      operationId: getTheSeatHalkiSmb
+      tags:
+        - coWorkingSpaceSmb
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Smb'
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /coWorkingSpace/techHubYokohama:
+    get:
+      summary: Get The Tech Hub Yokohama Details
+      operationId: getTechHubYokohama
+      tags:
+        - coWorkingSpaceSmb
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Smb'
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /users:
+    get:
+      summary: get users
+      operationId: listUsers
+      tags:
+        - app
+      security:
+        - FirebaseAuthentication: []
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: startIndex
+          description: start Index, defaut is 1
+          in: query
+          schema:
+            type: integer
+          required: false
+        - name: endIndex
+          description: end Index, default is 20
+          in: query
+          schema:
+            type: integer
+          required: false
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /users/{email}:
+    get:
+      summary: get user
+      operationId: getUser
+      tags:
+        - app
+      security:
+        - FirebaseAuthentication: []
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: email
+          schema:
+            type: string
+          required: true
+          in: path
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserBody'
+              examples:
+                example-1:
+                  value:
+                    role: sv
+                    amoId: amoId
+                    smbId: smbId
+                    userId: '3068a38d-f838-430a-a89d-503bcaad7dfa'
+                    email: 'hari3068a38d-f838-430a-a89d-503bcaad7dfa@gmail.com'
+                    createdAt: '2021-01-18T13:09:00.000Z'
+                    updatedAt: '2021-01-18T13:09:00.000Z'
+                    amo:
+                      name: 'amo'
+                      email: 'testamo@horai.com'
+                      amoId: 'amoId'
+                      createdAt: '2021-01-18T13:09:00.000Z'
+                      updatedAt: '2021-01-18T13:09:00.000Z'
+                    smb:
+                      amoId: 'amoId'
+                      smbId: 'smbId'
+                      name: 'smb'
+                      email: 'testsmb@horai.com'
+                      createdAt: '2021-01-18T13:09:00.000Z'
+                      updatedAt: '2021-01-18T13:09:00.000Z'
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+    post:
+      operationId: createUser
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - app
+        - user
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: email
+          schema:
+            type: string
+          required: true
+          in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserBody'
+      responses:
+        204:
+          description: No Content
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server Error
+    put:
+      operationId: updateUser
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - app
+        - user
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: email
+          schema:
+            type: string
+          required: true
+          in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserBody'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserBody'
+        204:
+          description: No Content
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server Error
+    delete:
+      summary: deletes user
+      operationId: userDELETE
+      tags:
+        - app
+        - user
+      security:
+        - FirebaseAuthentication: []
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: email
+          schema:
+            type: string
+          required: true
+          in: path
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserBody'
+              examples:
+                example-1:
+                  value:
+                    role: sv
+                    amoId: amoId
+                    smbId: smbId
+                    userId: '3068a38d-f838-430a-a89d-503bcaad7dfa'
+                    email: 'hari3068a38d-f838-430a-a89d-503bcaad7dfa@gmail.com'
+                    createdAt: '2021-01-18T13:09:00.000Z'
+                    updatedAt: '2021-01-18T13:09:00.000Z'
+                    status: 'INACTIVE'
+
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /userRoles:
+    get:
+      summary: Get UserRoles
+      operationId: getUserRoles
+      tags:
+        - app
+      security:
+        - FirebaseAuthentication: []
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserRole'
+  /userRoles/{emailAddress}:
+    get:
+      summary: Get UserRole
+      operationId: getUserRole
+      tags:
+        - app
+      security:
+        - FirebaseAuthentication: []
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: emailAddress
+          schema:
+            type: string
+          required: true
+          in: path
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRole'
+  /customer:
+    get:
+      summary: GET all customers
+      operationId: getAllCustomers
+      tags:
+        - Customers
+      security:
+        - FirebaseAuthentication: []
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: page
+          schema:
+            type: number
+          in: query
+        - name: limit
+          schema:
+            type: number
+          in: query
+        - name: searchText
+          schema:
+            type: string
+          in: query
+          allowReserved: true
+        - name: serviceType
+          schema:
+            type: string
+            enum: ['Application', 'Reservation', 'CoWorkingSpace']
+          in: query
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerList'
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+    post:
+      summary: Create customer
+      operationId: createCustomer
+      tags:
+        - Customers
+      security:
+        - FirebaseAuthentication: []
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerBody'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /customer/{customerId}:
+    put:
+      summary: Update customer
+      operationId: updateCustomerById
+      tags:
+        - Customers
+      security:
+        - FirebaseAuthentication: []
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: customerId
+          schema:
+            type: string
+          required: true
+          in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerBody'
+      responses:
+        204:
+          description: OK
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+    get:
+      summary: Get customer By id
+      operationId: getCustomerById
+      tags:
+        - Customers
+      security:
+        - FirebaseAuthentication: []
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: customerId
+          schema:
+            type: string
+          required: true
+          description: Please use customerId or email
+          in: path
+        - name: socialAccount
+          schema:
+            type: string
+            enum: ['EMAIL', 'FACEBOOK', 'TWITTER', 'APPLE', 'GOOGLE']
+          required: false
+          in: query
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+    delete:
+      summary: Delete customer By id
+      operationId: deleteCustomerById
+      tags:
+        - Customers
+      security:
+        - FirebaseAuthentication: []
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: customerId
+          schema:
+            type: string
+          required: true
+          in: path
+        - name: serviceType
+          schema:
+            type: string
+            enum: ['Application', 'Reservation', 'CoWorkingSpace']
+          in: query
+      responses:
+        204:
+          description: OK
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /customer/generateOtp:
+    post:
+      summary: Generate OTP to be sent on email address provided
+      operationId: generateOtp
+      tags:
+        - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateOtpBody'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  hash:
+                    type: string
+                  message:
+                    type: string
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /customer/verifyOtp:
+    $ref: './paths/VerifyOTP.yaml'
+  /deviceToken:
+    post:
+      summary: Update User Device Token
+      operationId: updateUserDeviceToken
+      tags:
+        - UserDeviceToken
+      security:
+        - FirebaseAuthentication: []
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceTokenBody'
+      responses:
+        204:
+          description: OK
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /deviceToken/{deviceToken}:
+    delete:
+      summary: Delete User Device Token
+      operationId: deleteUserDeviceToken
+      tags:
+        - UserDeviceToken
+      security:
+        - FirebaseAuthentication: []
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: deviceToken
+          schema:
+            type: string
+          required: true
+          in: path
+      responses:
+        204:
+          description: OK
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  # permission
+  /permission:
+    $ref: './paths/Permission.yaml'
+  /permission/{subject}:
+    $ref: './paths/PermissionDetail.yaml'
+  # only for internal call
+  /internalService/users/{email}:
+    get:
+      summary: Front-end don't use this api. Get user for service internal
+      operationId: internalGetUserService
+      tags:
+        - internal
+      parameters:
+        - $ref: '#/components/parameters/internalHeader'
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: email
+          schema:
+            type: string
+          required: true
+          in: path
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserBody'
+              examples:
+                example-1:
+                  value:
+                    role: sv
+                    amoId: amoId
+                    smbId: smbId
+                    userId: '3068a38d-f838-430a-a89d-503bcaad7dfa'
+                    email: 'hari3068a38d-f838-430a-a89d-503bcaad7dfa@gmail.com'
+                    createdAt: '2021-01-18T13:09:00.000Z'
+                    updatedAt: '2021-01-18T13:09:00.000Z'
+                    amo:
+                      name: 'amo'
+                      email: 'testamo@horai.com'
+                      amoId: 'amoId'
+                      createdAt: '2021-01-18T13:09:00.000Z'
+                      updatedAt: '2021-01-18T13:09:00.000Z'
+                    smb:
+                      amoId: 'amoId'
+                      smbId: 'smbId'
+                      name: 'smb'
+                      email: 'testsmb@horai.com'
+                      createdAt: '2021-01-18T13:09:00.000Z'
+                      updatedAt: '2021-01-18T13:09:00.000Z'
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /internalService/userDeviceTokens/{email}:
+    get:
+      summary: Front-end don't use this api. Get user device tokens for service internal
+      operationId: internalGetUserDeviceTokenService
+      tags:
+        - internal
+      parameters:
+        - $ref: '#/components/parameters/internalHeader'
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: email
+          schema:
+            type: string
+          required: true
+          in: path
+        - name: serviceType
+          schema:
+            type: string
+            enum: ['Application', 'Reservation', 'CoWorkingSpace']
+          in: query
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDeviceTokenResponseBody'
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /internalService/getAllDxCoreUserDeviceTokens:
+    get:
+      summary: Front-end don't use this api. Get All Dx Core User device tokens for service internal
+      operationId: internalGetAllDxCoreUserDeviceTokenService
+      tags:
+        - internal
+      parameters:
+        - $ref: '#/components/parameters/internalHeader'
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: serviceType
+          schema:
+            type: string
+            enum: ['Application', 'Reservation', 'CoWorkingSpace']
+          in: query
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DxCoreUserDeviceTokenResponseBody'
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /internalService/smbs/{smbId}:
+    get:
+      summary: Front-end don't use this api. Get SMB by id
+      operationId: internalGetSmbById
+      tags:
+        - internal
+      parameters:
+        - $ref: '#/components/parameters/internalHeader'
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - $ref: '#/components/parameters/smbId'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Smb'
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /internalService/smbs:
+    get:
+      summary: Front-end don't use this api. Get SMBs
+      operationId: internalGetSmbs
+      tags:
+        - internal
+      parameters:
+        - $ref: '#/components/parameters/internalHeader'
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: amoId
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Smb'
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        500:
+          description: Internal Server Error
+  /internalService/checkPermission:
+    $ref: './paths/InternalCheckPermission.yaml'
+  /internalService/allowedEventIds/{userEmail}:
+    $ref: './paths/InternalGetAllowedEventIds.yaml'
+  /internalService/customer:
+    post:
+      summary: Create customer
+      operationId: createInternalCustomer
+      tags:
+        - InternalCustomers
+      parameters:
+        - $ref: '#/components/parameters/internalHeader'
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerBody'
+      responses:
+        204:
+          description: OK
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+    get:
+      summary: Get all customers
+      operationId: getInternalCustomer
+      tags:
+        - InternalCustomers
+      parameters:
+        - $ref: '#/components/parameters/internalHeader'
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InternalGetCustomersBody'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /internalService/customerIds:
+    post:
+      summary: Get all customers
+      operationId: getInternalCustomerByIds
+      tags:
+        - InternalCustomers
+      parameters:
+        - $ref: '#/components/parameters/internalHeader'
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InternalGetCustomersBody'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+
+  /internalService/customer/{customerId}:
+    put:
+      summary: Update customer
+      operationId: updateInternalCustomerById
+      tags:
+        - InternalCustomers
+      parameters:
+        - $ref: '#/components/parameters/internalHeader'
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: customerId
+          schema:
+            type: string
+          required: true
+          in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerBody'
+      responses:
+        204:
+          description: OK
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+    get:
+      summary: Get customer By id
+      operationId: getInternalCustomerById
+      tags:
+        - InternalCustomers
+      parameters:
+        - $ref: '#/components/parameters/internalHeader'
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: customerId
+          schema:
+            type: string
+          required: true
+          description: Please use customerId or email
+          in: path
+        - name: serviceType
+          schema:
+            type: string
+            enum: ['Application', 'Reservation', 'CoWorkingSpace']
+          in: query
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+    delete:
+      summary: Delete customer By id
+      operationId: softDeleteInternalCustomerById
+      tags:
+        - InternalCustomers
+      parameters:
+        - $ref: '#/components/parameters/internalHeader'
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: customerId
+          schema:
+            type: string
+          required: true
+          in: path
+        - name: serviceType
+          schema:
+            type: string
+            enum: ['Application', 'Reservation', 'CoWorkingSpace']
+          in: query
+      responses:
+        204:
+          description: OK
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /app-account/linking:
+    get:
+      summary: Enable communication between different types of app accounts for efficient collaboration and resource sharing.
+      operationId: accountLinking
+      tags:
+        - AppAccount
+      parameters:
+        - name: horai_authorization_token
+          description: horai user authorization token
+          in: query
+          schema:
+            type: string
+          required: true
+        - name: appAccount_authorization_token
+          description: appAccount user authorization token
+          in: query
+          schema:
+            type: string
+          required: true
+        - name: appType
+          in: query
+          description: The type of the app account to be linked (e.g., nBiz, dxcore)
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /app-account/unlink:
+    get:
+      summary: Unlink connection between HORAI and other users for efficient collaboration and resource sharing.
+      operationId: unlinkCustomerConnection
+      tags:
+        - AppAccount
+      security:
+        - FirebaseAuthentication: []
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: appType
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The application type to unlink (e.g., nBiz, dxcore)
+      responses:
+        200:
+          description: OK
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /biz/redirect:
+    get:
+      summary: Enable communication between HORAI, &BIZ users for efficient collaboration and resource sharing.
+      operationId: bizUserCommunication
+      tags:
+        - BizUser
+      parameters:
+        - name: horai_authorization_token
+          description: horai user authorization token
+          in: query
+          schema:
+            type: string
+          required: true
+        - name: biz_authorization_token
+          description: biz user authorization token
+          in: query
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: OK
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /biz/unlink:
+    get:
+      summary: unlink connection between HORAI, &BIZ users for efficient collaboration and resource sharing.
+      operationId: unlinkBizUserConnection
+      tags:
+        - BizUser
+      security:
+        - FirebaseAuthentication: []
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+      responses:
+        200:
+          description: OK
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /todo/report:
+    post:
+      summary: Create todo report
+      operationId: createReport
+      tags:
+        - Report
+      security:
+        - FirebaseAuthentication: []
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoReportBody'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoReport'
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /todo/report/update/{reportId}:
+    put:
+      summary: Update Todo Report
+      operationId: updateReportById
+      tags:
+        - Report
+      security:
+        - FirebaseAuthentication: []
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: reportId
+          schema:
+            type: string
+          required: true
+          in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoReportUpdateBody'
+      responses:
+        204:
+          description: OK
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /todo/report/get/{reportId}:
+    get:
+      operationId: getReportById
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - Report
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: reportId
+          schema:
+            type: string
+          required: true
+          in: path
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoReport'
+        '404':
+          description: Not Found
+  /todo/report/get:
+    get:
+      operationId: getAll
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - Report
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoReport'
+        '404':
+          description: Not Found
+  /todo/report/delete/{reportId}:
+    delete:
+      summary: deletes Todo report by reportId
+      operationId: softDeleteReportById
+      tags:
+        - Report
+      security:
+        - FirebaseAuthentication: []
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: reportId
+          schema:
+            type: string
+          required: true
+          in: path
+      responses:
+        200:
+          description: OK
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /user/dxcore/cronJobWeekly:
+    get:
+      summary: Cron Job to save dxcore user data
+      operationId: addDxCoreData
+      tags:
+        - addDxCoreDataCronJob
+      responses:
+        200:
+          description: OK
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        500:
+          description: Internal Server Error
+  /builmirai/device/cronJobDaily:
+    get:
+      summary: Cron Job to save builmirai device data
+      operationId: addBuilMiraiDeviceData
+      tags:
+        - addBuilMiraiDeviceDataCronJob
+      parameters:
+        - name: fromDate
+          description: fromDate for filtering (date should be in utc format)
+          in: query
+          schema:
+            format: date-time
+            type: string
+          required: false
+        - name: toDate
+          description: toDate for filtering (date should be in utc format)
+          in: query
+          schema:
+            format: date-time
+            type: string
+          required: false
+      responses:
+        200:
+          description: OK
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        500:
+          description: Internal Server Error
+components:
+  securitySchemes:
+    FirebaseAuthentication:
+      type: http
+      scheme: bearer
+  parameters:
+    DO_NOT_USE_THIS_authorization:
+      description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+      in: header
+      name: authorization
+      schema:
+        type: string
+    internalHeader:
+      description: Only for internal header.
+      in: header
+      name: xsecretrequestkey
+      schema:
+        type: string
+    smbId:
+      description: Id of specific Smb
+      in: path
+      name: smbId
+      schema:
+        type: string
+      required: true
+    reportId:
+      description: Id of specific Report
+      in: path
+      name: reportId
+      schema:
+        type: string
+      required: true
+  schemas:
+    Uuidv4:
+      type: string
+      title: Uuidv4
+      pattern: '^[a-zA-Z0-9]{20,30}$|^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$'
+    InternalGetCustomersBody:
+      title: InternalGetCustomersBody
+      properties:
+        customerIds:
+          type: array
+          items:
+            $ref: '#/components/schemas/Uuidv4'
+    UserList:
+      title: UserList
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserBody'
+        totalPage:
+          type: number
+    User:
+      title: user
+      properties:
+        userRole:
+          $ref: '#/components/schemas/UserRole'
+    UserBody:
+      title: UserBody
+      properties:
+        userId:
+          type: string
+        role:
+          type: string
+          enum: ['sv', 'amo', 'smb']
+        amoId:
+          type: string
+        smbId:
+          type: string
+        amo:
+          $ref: '#/components/schemas/Amo'
+        smb:
+          $ref: '#/components/schemas/Smb'
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        status:
+          type: string
+          enum: ['ACTIVE', 'INACTIVE']
+    UserRoleBody:
+      title: UserRoleBody
+      properties:
+        role:
+          type: string
+          enum: [sv, amo, smb]
+        amoId:
+          type: string
+        smbId:
+          type: string
+    UserRole:
+      title: UserRole
+      allOf:
+        - $ref: '#/components/schemas/UserRoleBody'
+      properties:
+        emailAddress:
+          type: string
+        amo:
+          $ref: '#/components/schemas/Amo'
+        smb:
+          $ref: '#/components/schemas/Smb'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - emailAddress
+        - createdAt
+        - updatedAt
+    AmoBody:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+      required:
+        - name
+        - email
+    AmoStatusBody:
+      type: object
+      properties:
+        isActive:
+          type: boolean
+      required:
+        - isActive
+    Amo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/AmoBody'
+      properties:
+        amoId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - amoId
+        - name
+        - createdAt
+        - updatedAt
+    SmbStatusBody:
+      type: object
+      properties:
+        isActive:
+          type: boolean
+      required:
+        - isActive
+    SmbBody:
+      properties:
+        amoId:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        optionalEmails:
+          type: array
+          items:
+            type: string
+        imageUrls:
+          type: array
+          items:
+            type: string
+          format: uri
+        description:
+          type: string
+        precaution:
+          type: string
+        cancelationPolicy:
+          type: string
+        resourceType:
+          type: string
+          enum: ['CoWorkingSpace', 'Activity', 'BoatTour', 'EventTicket']
+        address:
+          type: string
+        openTime:
+          type: string
+          format: time
+        closeTime:
+          type: string
+          format: time
+        reservableItemMapImageUrls:
+          type: array
+          items:
+            type: string
+          format: uri
+        logoUrl:
+          type: string
+          format: uri
+        facilityIntroduction:
+          type: string
+        precautionOfReservation:
+          type: string
+        cancellationPolicyOfReservation:
+          type: string
+        subRole:
+          type: string
+          enum: ['MEC', 'DRIVERY', 'THY']
+      required:
+        - amoId
+        - name
+        - email
+    SmbUpdateBody:
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        optionalEmails:
+          type: array
+          items:
+            type: string
+        imageUrls:
+          type: array
+          items:
+            type: string
+          format: uri
+        description:
+          type: string
+        precaution:
+          type: string
+        cancelationPolicy:
+          type: string
+        address:
+          type: string
+        openTime:
+          type: string
+          format: time
+        closeTime:
+          type: string
+          format: time
+        reservableItemMapImageUrls:
+          type: array
+          items:
+            type: string
+          format: uri
+        logoUrl:
+          type: string
+          format: uri
+        facilityIntroduction:
+          type: string
+        precautionOfReservation:
+          type: string
+        cancellationPolicyOfReservation:
+          type: string
+        subRole:
+          type: string
+          enum: ['MEC', 'DRIVERY', 'THY']
+      required:
+        - name
+        - email
+    Smb:
+      title: SMB
+      allOf:
+        - $ref: '#/components/schemas/SmbBody'
+      properties:
+        smbId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - smbId
+        - amoId
+        - name
+        - createdAt
+        - updatedAt
+    ReportUpdateBody:
+      properties:
+        reportLink:
+          type: string
+        reportType:
+          type: string
+        name:
+          type: string
+      required:
+        - reportLink
+        - reportType
+        - name
+    Report:
+      allOf:
+        - $ref: '#/components/schemas/ReportUpdateBody'
+      properties:
+        reportId:
+          type: string
+        smbId:
+          type: string
+      required:
+        - reportId
+        - smbId
+    CustomerBody:
+      title: CustomerBody
+      type: object
+      properties:
+        customerId:
+          type: string
+        connectedFirebaseId:
+          type: string
+        email:
+          type: string
+        socialAccount:
+          type: string
+          enum: ['EMAIL', 'FACEBOOK', 'TWITTER', 'APPLE', 'GOOGLE']
+        customerType:
+          type: string
+          enum: ['REGULAR', 'GUEST']
+        firstName:
+          type: string
+        lastName:
+          type: string
+        nickname:
+          type: string
+        dateOfBirth:
+          type: string
+        postCode:
+          type: string
+        gender:
+          type: string
+          enum: ['MALE', 'FEMALE', 'OTHER']
+        residenceArea:
+          type: string
+        acceptDirectMail:
+          type: boolean
+        emailAddress:
+          type: string
+        language:
+          type: string
+        phoneNumber:
+          type: string
+        isActive:
+          type: boolean
+        isDeleted:
+          type: boolean
+        username:
+          type: string
+        city:
+          type: string
+        province:
+          type: string
+        pronounceFirstName:
+          type: string
+        pronounceLastName:
+          type: string
+      required:
+        - email
+        - firstName
+        - lastName
+    Customer:
+      title: Customer
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/CustomerBody'
+      properties:
+        customerId:
+          type: string
+        serviceType:
+          type: string
+          enum: [CoWorkingSpace, Reservation, Application]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - customerId
+        - createdAt
+        - updatedAt
+    CustomerList:
+      title: CustomerList
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/Customer'
+        totalPage:
+          type: number
+    GenerateOtpBody:
+      title: generateOtpBody
+      properties:
+        email:
+          type: string
+      required:
+        - email
+    VerifyOtpBody:
+      title: verifyOtpBody
+      allOf:
+        - $ref: '#/components/schemas/CustomerBody'
+      properties:
+        hash:
+          type: string
+        otp:
+          type: string
+        password:
+          type: string
+      required:
+        - hash
+        - otp
+        - password
+    DeviceTokenBody:
+      title: DeviceTokenBody
+      type: object
+      properties:
+        deviceToken:
+          type: string
+        serviceType:
+          type: string
+          enum: [CoWorkingSpace, Reservation, Application]
+      required:
+        - deviceToken
+        - serviceType
+    UserDeviceToken:
+      title: UserDeviceToken
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/DeviceTokenBody'
+      properties:
+        userDeviceTokenId:
+          type: string
+        email:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - userDeviceTokenId
+        - email
+        - createdAt
+        - updatedAt
+    UserDeviceTokenResponseBody:
+      title: UserDeviceTokenResponseBody
+      type: object
+      properties:
+        email:
+          type: string
+        deviceTokens:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserDeviceToken'
+        userDetails:
+          type: object
+      required:
+        - email
+        - deviceTokens
+    DxCoreUserDeviceTokenResponseBody:
+      title: DxCoreUserDeviceTokenResponseBody
+      type: object
+      properties:
+        email:
+          type: string
+        deviceTokens:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserDeviceToken'
+      required:
+        - email
+        - deviceTokens
+    TodoReportBody:
+      title: TodoReportBody
+      type: object
+      properties:
+        name:
+          type: string
+        Smbid:
+          type: string
+        reportLink:
+          type: string
+        reportType:
+          type: string
+          enum: ['PDF', 'LookerStudio']
+      required:
+        - name
+        - reportLink
+        - reportType
+        - Smbid
+    TodoReportUpdateBody:
+      title: TodoReportBody
+      type: object
+      properties:
+        name:
+          type: string
+        reportLink:
+          type: string
+        reportType:
+          type: string
+          enum: ['PDF', 'LookerStudio']
+      required:
+        - name
+        - reportLink
+        - reportType
+    TodoReport:
+      title: TodoReport
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/TodoReportBody'
+      properties:
+        reportId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - reportId
+        - createdAt
+        - updatedAt

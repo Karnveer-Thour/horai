@@ -1,0 +1,11 @@
+env: standard
+runtime: nodejs20
+
+service: api-user
+env_variables:
+  FILE_UPLOAD_PATH: '/tmp'
+
+# vpc_access_connector:
+#   name: projects/horai-dev-scheme-verge-v2/locations/asia-northeast1/connectors/dev-local-user
+
+instance_class: F4

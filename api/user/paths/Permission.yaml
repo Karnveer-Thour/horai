@@ -1,0 +1,40 @@
+post:
+  summary: Create Permisson
+  operationId: createPermission
+  tags:
+    - Permission
+  security:
+    - FirebaseAuthentication: []
+  parameters:
+    - $ref: '../openapi.yaml#/components/parameters/DO_NOT_USE_THIS_authorization'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            permissions:
+              type: array
+              items:
+                properties:
+                  subject:
+                    type: string
+                  resource:
+                    type: string
+                  action:
+                    type: string
+                required:
+                  - subject
+                  - resource
+                  - action
+          required:
+            - permissions
+  responses:
+    204:
+      description: OK
+    401:
+      description: Unauthorized
+    404:
+      description: Not Found
+    500:
+      description: Internal Server Error

@@ -1,0 +1,3451 @@
+openapi: 3.0.0
+info:
+  title: User
+  version: '1.0'
+servers:
+  - description: local
+    url: http://localhost:3001
+  - description: dev
+    url: https://api-user-dot-horai-dev-scheme-verge-v2.an.r.appspot.com
+paths:
+  /hc:
+    get:
+      operationId: hcGET
+      responses:
+        '200':
+          description: OK
+      summary: Health Check
+      tags:
+        - app
+      x-eov-operation-handler: controllers/AppController
+  /me:
+    get:
+      operationId: getMe
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/User'
+                type: array
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: Get me
+      tags:
+        - app
+      x-eov-operation-handler: controllers/AppController
+  /amos/{amoId}:
+    get:
+      operationId: getAmoById
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: amoId
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AmoBody'
+          description: OK
+        '404':
+          description: Not Found
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - app
+      x-eov-operation-handler: controllers/AppController
+    put:
+      operationId: amosAmoIdPUT
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: amoId
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AmoBody'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - app
+      x-eov-operation-handler: controllers/AppController
+  /amos:
+    get:
+      operationId: getAmos
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Amo'
+                type: array
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: Get AMOs
+      tags:
+        - app
+      x-eov-operation-handler: controllers/AppController
+  /v2/amos/deactivate/{amoId}:
+    put:
+      operationId: updateAmoStatus
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: amoId
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AmoStatusBody'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - user
+      x-eov-operation-handler: controllers/UserController
+  /v2/amos/{amoId}:
+    delete:
+      operationId: deleteAmoByamoId
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: amoId
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: deletes amo by amoId
+      tags:
+        - user
+      x-eov-operation-handler: controllers/UserController
+    get:
+      operationId: getAmoByamoId
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: amoId
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AmoBody'
+          description: OK
+        '404':
+          description: Not Found
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - user
+      x-eov-operation-handler: controllers/UserController
+    put:
+      operationId: updateAmobyamoId
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: amoId
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AmoBody'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - user
+      x-eov-operation-handler: controllers/UserController
+  /v2/amos:
+    get:
+      operationId: getAllAmos
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Amo'
+                type: array
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: Get All AMOs
+      tags:
+        - user
+      x-eov-operation-handler: controllers/UserController
+    post:
+      operationId: createAmo
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AmoBody'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - user
+      x-eov-operation-handler: controllers/UserController
+  /smbs:
+    get:
+      operationId: getSmbs
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: true
+          in: query
+          name: amoId
+          required: false
+          schema:
+            type: string
+          style: form
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Smb'
+                type: array
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: Get SMBs
+      tags:
+        - app
+      x-eov-operation-handler: controllers/AppController
+  /smbs/{smbId}:
+    get:
+      operationId: getSmbById
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - description: Id of specific Smb
+          explode: false
+          in: path
+          name: smbId
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Smb'
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: Get SMB by id
+      tags:
+        - app
+      x-eov-operation-handler: controllers/AppController
+    put:
+      operationId: updateSmb
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - description: Id of specific Smb
+          explode: false
+          in: path
+          name: smbId
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmbBody'
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: Update SMB
+      tags:
+        - app
+      x-eov-operation-handler: controllers/AppController
+  /v2/smb/deactivate/{smbId}:
+    put:
+      operationId: deactivateSmb
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - description: Id of specific Smb
+          explode: false
+          in: path
+          name: smbId
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmbStatusBody'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - user
+      x-eov-operation-handler: controllers/UserController
+  /v2/smbs:
+    get:
+      operationId: getAllSmbs
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Smb'
+                type: array
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: Get All SMBs
+      tags:
+        - user
+      x-eov-operation-handler: controllers/UserController
+    post:
+      operationId: createSmb
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmbBody'
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: Create SMB
+      tags:
+        - user
+      x-eov-operation-handler: controllers/UserController
+  /v2/smbs/{smbId}:
+    get:
+      operationId: getSmbBySmbId
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - description: Id of specific Smb
+          explode: false
+          in: path
+          name: smbId
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Smb'
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: Get v2 SMB by id
+      tags:
+        - user
+      x-eov-operation-handler: controllers/UserController
+    put:
+      operationId: updateSmbBySmbId
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - description: Id of specific Smb
+          explode: false
+          in: path
+          name: smbId
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmbUpdateBody'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: Update Smb
+      tags:
+        - user
+      x-eov-operation-handler: controllers/UserController
+  /v2/smbs/{smbId}/reports:
+    get:
+      operationId: getReportsBySmbId
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - description: Id of specific Smb
+          explode: false
+          in: path
+          name: smbId
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Report'
+                type: array
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: Get v2 SMB reports by id
+      tags:
+        - user
+      x-eov-operation-handler: controllers/UserController
+  /v2/smbs/{smbId}/reports/{reportId}:
+    put:
+      operationId: updateReport
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - description: Id of specific Smb
+          explode: false
+          in: path
+          name: smbId
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Id of specific Report
+          explode: false
+          in: path
+          name: reportId
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportUpdateBody'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: Update Report
+      tags:
+        - user
+      x-eov-operation-handler: controllers/UserController
+  /coWorkingSpace/theSeatHalki:
+    get:
+      operationId: getTheSeatHalkiSmb
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Smb'
+          description: OK
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      summary: Get The Seat Halki detail
+      tags:
+        - coWorkingSpaceSmb
+      x-eov-operation-handler: controllers/CoWorkingSpaceSmbController
+  /coWorkingSpace/techHubYokohama:
+    get:
+      operationId: getTechHubYokohama
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Smb'
+          description: OK
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      summary: Get The Tech Hub Yokohama Details
+      tags:
+        - coWorkingSpaceSmb
+      x-eov-operation-handler: controllers/CoWorkingSpaceSmbController
+  /users:
+    get:
+      operationId: listUsers
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - description: start Index, defaut is 1
+          explode: true
+          in: query
+          name: startIndex
+          required: false
+          schema:
+            type: integer
+          style: form
+        - description: end Index, default is 20
+          explode: true
+          in: query
+          name: endIndex
+          required: false
+          schema:
+            type: integer
+          style: form
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: get users
+      tags:
+        - app
+      x-eov-operation-handler: controllers/AppController
+  /users/{email}:
+    delete:
+      operationId: userDELETE
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: email
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                example-1:
+                  value:
+                    role: sv
+                    amoId: amoId
+                    smbId: smbId
+                    userId: 3068a38d-f838-430a-a89d-503bcaad7dfa
+                    email: hari3068a38d-f838-430a-a89d-503bcaad7dfa@gmail.com
+                    createdAt: 2021-01-18T13:09:00.000Z
+                    updatedAt: 2021-01-18T13:09:00.000Z
+                    status: INACTIVE
+              schema:
+                $ref: '#/components/schemas/UserBody'
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: deletes user
+      tags:
+        - app
+        - user
+      x-eov-operation-handler: controllers/AppController
+    get:
+      operationId: getUser
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: email
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                example-1:
+                  value:
+                    role: sv
+                    amoId: amoId
+                    smbId: smbId
+                    userId: 3068a38d-f838-430a-a89d-503bcaad7dfa
+                    email: hari3068a38d-f838-430a-a89d-503bcaad7dfa@gmail.com
+                    createdAt: 2021-01-18T13:09:00.000Z
+                    updatedAt: 2021-01-18T13:09:00.000Z
+                    amo:
+                      name: amo
+                      email: testamo@horai.com
+                      amoId: amoId
+                      createdAt: 2021-01-18T13:09:00.000Z
+                      updatedAt: 2021-01-18T13:09:00.000Z
+                    smb:
+                      amoId: amoId
+                      smbId: smbId
+                      name: smb
+                      email: testsmb@horai.com
+                      createdAt: 2021-01-18T13:09:00.000Z
+                      updatedAt: 2021-01-18T13:09:00.000Z
+              schema:
+                $ref: '#/components/schemas/UserBody'
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: get user
+      tags:
+        - app
+      x-eov-operation-handler: controllers/AppController
+    post:
+      operationId: createUser
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: email
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserBody'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - app
+        - user
+      x-eov-operation-handler: controllers/AppController
+    put:
+      operationId: updateUser
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: email
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserBody'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserBody'
+          description: OK
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - app
+        - user
+      x-eov-operation-handler: controllers/AppController
+  /userRoles:
+    get:
+      operationId: getUserRoles
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/UserRole'
+                type: array
+          description: OK
+      security:
+        - FirebaseAuthentication: []
+      summary: Get UserRoles
+      tags:
+        - app
+      x-eov-operation-handler: controllers/AppController
+  /userRoles/{emailAddress}:
+    get:
+      operationId: getUserRole
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: emailAddress
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRole'
+          description: OK
+      security:
+        - FirebaseAuthentication: []
+      summary: Get UserRole
+      tags:
+        - app
+      x-eov-operation-handler: controllers/AppController
+  /customer:
+    get:
+      operationId: getAllCustomers
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: true
+          in: query
+          name: page
+          required: false
+          schema:
+            type: number
+          style: form
+        - explode: true
+          in: query
+          name: limit
+          required: false
+          schema:
+            type: number
+          style: form
+        - allowReserved: true
+          explode: true
+          in: query
+          name: searchText
+          required: false
+          schema:
+            type: string
+          style: form
+        - explode: true
+          in: query
+          name: serviceType
+          required: false
+          schema:
+            enum:
+              - Application
+              - Reservation
+              - CoWorkingSpace
+            type: string
+          style: form
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerList'
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: GET all customers
+      tags:
+        - Customers
+      x-eov-operation-handler: controllers/CustomersController
+    post:
+      operationId: createCustomer
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerBody'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: Create customer
+      tags:
+        - Customers
+      x-eov-operation-handler: controllers/CustomersController
+  /customer/{customerId}:
+    delete:
+      operationId: deleteCustomerById
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: customerId
+          required: true
+          schema:
+            type: string
+          style: simple
+        - explode: true
+          in: query
+          name: serviceType
+          required: false
+          schema:
+            enum:
+              - Application
+              - Reservation
+              - CoWorkingSpace
+            type: string
+          style: form
+      responses:
+        '204':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: Delete customer By id
+      tags:
+        - Customers
+      x-eov-operation-handler: controllers/CustomersController
+    get:
+      operationId: getCustomerById
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - description: Please use customerId or email
+          explode: false
+          in: path
+          name: customerId
+          required: true
+          schema:
+            type: string
+          style: simple
+        - explode: true
+          in: query
+          name: socialAccount
+          required: false
+          schema:
+            enum:
+              - EMAIL
+              - FACEBOOK
+              - TWITTER
+              - APPLE
+              - GOOGLE
+            type: string
+          style: form
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: Get customer By id
+      tags:
+        - Customers
+      x-eov-operation-handler: controllers/CustomersController
+    put:
+      operationId: updateCustomerById
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: customerId
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerBody'
+      responses:
+        '204':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: Update customer
+      tags:
+        - Customers
+      x-eov-operation-handler: controllers/CustomersController
+  /customer/generateOtp:
+    post:
+      operationId: generateOtp
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateOtpBody'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  hash:
+                    type: string
+                  message:
+                    type: string
+          description: OK
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      summary: Generate OTP to be sent on email address provided
+      tags:
+        - Auth
+      x-eov-operation-handler: controllers/AuthController
+  /customer/verifyOtp:
+    post:
+      operationId: verifyOtpAndCreateGuestCustomer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyOtpBody'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+          description: OK
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      summary: Verify OTP and create guest user entry
+      tags:
+        - Auth
+      x-eov-operation-handler: controllers/AuthController
+  /deviceToken:
+    post:
+      operationId: updateUserDeviceToken
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceTokenBody'
+      responses:
+        '204':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: Update User Device Token
+      tags:
+        - UserDeviceToken
+      x-eov-operation-handler: controllers/UserDeviceTokenController
+  /deviceToken/{deviceToken}:
+    delete:
+      operationId: deleteUserDeviceToken
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: deviceToken
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        '204':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: Delete User Device Token
+      tags:
+        - UserDeviceToken
+      x-eov-operation-handler: controllers/UserDeviceTokenController
+  /permission:
+    post:
+      operationId: createPermission
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          in: header
+          name: authorization
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object'
+        content:
+          application/json:
+            schema:
+              properties:
+                permissions:
+                  items:
+                    $ref: '#/components/schemas/_permission_permissions'
+                  type: array
+              required:
+                - permissions
+              type: object
+      responses:
+        '204':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: Create Permisson
+      tags:
+        - Permission
+      x-eov-operation-handler: controllers/PermissionController
+  /permission/{subject}:
+    delete:
+      operationId: deletePermission
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          in: header
+          name: authorization
+          schema:
+            type: string
+        - in: path
+          name: subject
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: resource
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: action
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: Delete permission
+      tags:
+        - Permission
+      x-eov-operation-handler: controllers/PermissionController
+    put:
+      operationId: updatePermission
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          in: header
+          name: authorization
+          schema:
+            type: string
+        - in: path
+          name: subject
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: resource
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: action
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object_1'
+        content:
+          application/json:
+            schema:
+              properties:
+                subject:
+                  type: string
+                resource:
+                  type: string
+                action:
+                  type: string
+              required:
+                - action
+                - resource
+                - subject
+              type: object
+      responses:
+        '204':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: Update permission
+      tags:
+        - Permission
+      x-eov-operation-handler: controllers/PermissionController
+  /internalService/users/{email}:
+    get:
+      operationId: internalGetUserService
+      parameters:
+        - description: Only for internal header.
+          explode: false
+          in: header
+          name: xsecretrequestkey
+          required: false
+          schema:
+            type: string
+          style: simple
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: email
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                example-1:
+                  value:
+                    role: sv
+                    amoId: amoId
+                    smbId: smbId
+                    userId: 3068a38d-f838-430a-a89d-503bcaad7dfa
+                    email: hari3068a38d-f838-430a-a89d-503bcaad7dfa@gmail.com
+                    createdAt: 2021-01-18T13:09:00.000Z
+                    updatedAt: 2021-01-18T13:09:00.000Z
+                    amo:
+                      name: amo
+                      email: testamo@horai.com
+                      amoId: amoId
+                      createdAt: 2021-01-18T13:09:00.000Z
+                      updatedAt: 2021-01-18T13:09:00.000Z
+                    smb:
+                      amoId: amoId
+                      smbId: smbId
+                      name: smb
+                      email: testsmb@horai.com
+                      createdAt: 2021-01-18T13:09:00.000Z
+                      updatedAt: 2021-01-18T13:09:00.000Z
+              schema:
+                $ref: '#/components/schemas/UserBody'
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      summary: Front-end don't use this api. Get user for service internal
+      tags:
+        - internal
+      x-eov-operation-handler: controllers/InternalController
+  /internalService/userDeviceTokens/{email}:
+    get:
+      operationId: internalGetUserDeviceTokenService
+      parameters:
+        - description: Only for internal header.
+          explode: false
+          in: header
+          name: xsecretrequestkey
+          required: false
+          schema:
+            type: string
+          style: simple
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: email
+          required: true
+          schema:
+            type: string
+          style: simple
+        - explode: true
+          in: query
+          name: serviceType
+          required: false
+          schema:
+            enum:
+              - Application
+              - Reservation
+              - CoWorkingSpace
+            type: string
+          style: form
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDeviceTokenResponseBody'
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      summary: Front-end don't use this api. Get user device tokens for service internal
+      tags:
+        - internal
+      x-eov-operation-handler: controllers/InternalController
+  /internalService/getAllDxCoreUserDeviceTokens:
+    get:
+      operationId: internalGetAllDxCoreUserDeviceTokenService
+      parameters:
+        - description: Only for internal header.
+          explode: false
+          in: header
+          name: xsecretrequestkey
+          required: false
+          schema:
+            type: string
+          style: simple
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: true
+          in: query
+          name: serviceType
+          required: false
+          schema:
+            enum:
+              - Application
+              - Reservation
+              - CoWorkingSpace
+            type: string
+          style: form
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/DxCoreUserDeviceTokenResponseBody'
+                type: array
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      summary: Front-end don't use this api. Get All Dx Core User device tokens for
+        service internal
+      tags:
+        - internal
+      x-eov-operation-handler: controllers/InternalController
+  /internalService/smbs/{smbId}:
+    get:
+      operationId: internalGetSmbById
+      parameters:
+        - description: Only for internal header.
+          explode: false
+          in: header
+          name: xsecretrequestkey
+          required: false
+          schema:
+            type: string
+          style: simple
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - description: Id of specific Smb
+          explode: false
+          in: path
+          name: smbId
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Smb'
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      summary: Front-end don't use this api. Get SMB by id
+      tags:
+        - internal
+      x-eov-operation-handler: controllers/InternalController
+  /internalService/smbs:
+    get:
+      operationId: internalGetSmbs
+      parameters:
+        - description: Only for internal header.
+          explode: false
+          in: header
+          name: xsecretrequestkey
+          required: false
+          schema:
+            type: string
+          style: simple
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: true
+          in: query
+          name: amoId
+          required: false
+          schema:
+            type: string
+          style: form
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Smb'
+                type: array
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      summary: Front-end don't use this api. Get SMBs
+      tags:
+        - internal
+      x-eov-operation-handler: controllers/InternalController
+  /internalService/checkPermission:
+    post:
+      operationId: internalCheckUserPermission
+      parameters:
+        - description: Only for internal header.
+          in: header
+          name: xsecretrequestkey
+          schema:
+            type: string
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          in: header
+          name: authorization
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/CheckUserPermissionBody'
+        content:
+          application/json:
+            schema:
+              example:
+                action: action
+                userEmail: userEmail
+                resourceName: resourceName
+                id: id
+              properties:
+                action:
+                  type: string
+                userEmail:
+                  format: email
+                  type: string
+                resourceName:
+                  type: string
+                id:
+                  type: string
+              required:
+                - action
+                - resourceName
+                - userEmail
+              title: CheckUserPermissionBody
+              type: object
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      summary: Front-end don't use this api. Check user permission
+      tags:
+        - InternalCustomers
+      x-eov-operation-handler: controllers/InternalCustomersController
+  /internalService/allowedEventIds/{userEmail}:
+    get:
+      operationId: internalGetAllowedEventIds
+      parameters:
+        - description: Only for internal header.
+          in: header
+          name: xsecretrequestkey
+          schema:
+            type: string
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          in: header
+          name: authorization
+          schema:
+            type: string
+        - in: path
+          name: userEmail
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      summary: Front-end don't use this api. Check user permission
+      tags:
+        - InternalCustomers
+      x-eov-operation-handler: controllers/InternalCustomersController
+  /internalService/customer:
+    get:
+      operationId: getInternalCustomer
+      parameters:
+        - description: Only for internal header.
+          explode: false
+          in: header
+          name: xsecretrequestkey
+          required: false
+          schema:
+            type: string
+          style: simple
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InternalGetCustomersBody'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Customer'
+                type: array
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      summary: Get all customers
+      tags:
+        - InternalCustomers
+      x-eov-operation-handler: controllers/InternalCustomersController
+    post:
+      operationId: createInternalCustomer
+      parameters:
+        - description: Only for internal header.
+          explode: false
+          in: header
+          name: xsecretrequestkey
+          required: false
+          schema:
+            type: string
+          style: simple
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerBody'
+      responses:
+        '204':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      summary: Create customer
+      tags:
+        - InternalCustomers
+      x-eov-operation-handler: controllers/InternalCustomersController
+  /internalService/customerIds:
+    post:
+      operationId: getInternalCustomerByIds
+      parameters:
+        - description: Only for internal header.
+          explode: false
+          in: header
+          name: xsecretrequestkey
+          required: false
+          schema:
+            type: string
+          style: simple
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InternalGetCustomersBody'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Customer'
+                type: array
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      summary: Get all customers
+      tags:
+        - InternalCustomers
+      x-eov-operation-handler: controllers/InternalCustomersController
+  /internalService/customer/{customerId}:
+    delete:
+      operationId: softDeleteInternalCustomerById
+      parameters:
+        - description: Only for internal header.
+          explode: false
+          in: header
+          name: xsecretrequestkey
+          required: false
+          schema:
+            type: string
+          style: simple
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: customerId
+          required: true
+          schema:
+            type: string
+          style: simple
+        - explode: true
+          in: query
+          name: serviceType
+          required: false
+          schema:
+            enum:
+              - Application
+              - Reservation
+              - CoWorkingSpace
+            type: string
+          style: form
+      responses:
+        '204':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      summary: Delete customer By id
+      tags:
+        - InternalCustomers
+      x-eov-operation-handler: controllers/InternalCustomersController
+    get:
+      operationId: getInternalCustomerById
+      parameters:
+        - description: Only for internal header.
+          explode: false
+          in: header
+          name: xsecretrequestkey
+          required: false
+          schema:
+            type: string
+          style: simple
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - description: Please use customerId or email
+          explode: false
+          in: path
+          name: customerId
+          required: true
+          schema:
+            type: string
+          style: simple
+        - explode: true
+          in: query
+          name: serviceType
+          required: false
+          schema:
+            enum:
+              - Application
+              - Reservation
+              - CoWorkingSpace
+            type: string
+          style: form
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      summary: Get customer By id
+      tags:
+        - InternalCustomers
+      x-eov-operation-handler: controllers/InternalCustomersController
+    put:
+      operationId: updateInternalCustomerById
+      parameters:
+        - description: Only for internal header.
+          explode: false
+          in: header
+          name: xsecretrequestkey
+          required: false
+          schema:
+            type: string
+          style: simple
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: customerId
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerBody'
+      responses:
+        '204':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      summary: Update customer
+      tags:
+        - InternalCustomers
+      x-eov-operation-handler: controllers/InternalCustomersController
+  /app-account/linking:
+    get:
+      operationId: accountLinking
+      parameters:
+        - description: horai user authorization token
+          explode: true
+          in: query
+          name: horai_authorization_token
+          required: true
+          schema:
+            type: string
+          style: form
+        - description: appAccount user authorization token
+          explode: true
+          in: query
+          name: appAccount_authorization_token
+          required: true
+          schema:
+            type: string
+          style: form
+        - description: The type of the app account to be linked (e.g., nBiz, dxcore)
+          explode: true
+          in: query
+          name: appType
+          required: true
+          schema:
+            type: string
+          style: form
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      summary: Enable communication between different types of app accounts for efficient
+        collaboration and resource sharing.
+      tags:
+        - AppAccount
+      x-eov-operation-handler: controllers/AppAccountController
+  /app-account/unlink:
+    get:
+      operationId: unlinkCustomerConnection
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - description: The application type to unlink (e.g., nBiz, dxcore)
+          explode: true
+          in: query
+          name: appType
+          required: true
+          schema:
+            type: string
+          style: form
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: Unlink connection between HORAI and other users for efficient collaboration
+        and resource sharing.
+      tags:
+        - AppAccount
+      x-eov-operation-handler: controllers/AppAccountController
+  /biz/redirect:
+    get:
+      operationId: bizUserCommunication
+      parameters:
+        - description: horai user authorization token
+          explode: true
+          in: query
+          name: horai_authorization_token
+          required: true
+          schema:
+            type: string
+          style: form
+        - description: biz user authorization token
+          explode: true
+          in: query
+          name: biz_authorization_token
+          required: true
+          schema:
+            type: string
+          style: form
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      summary: Enable communication between HORAI, &BIZ users for efficient collaboration
+        and resource sharing.
+      tags:
+        - BizUser
+      x-eov-operation-handler: controllers/BizUserController
+  /biz/unlink:
+    get:
+      operationId: unlinkBizUserConnection
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: unlink connection between HORAI, &BIZ users for efficient collaboration
+        and resource sharing.
+      tags:
+        - BizUser
+      x-eov-operation-handler: controllers/BizUserController
+  /todo/report:
+    post:
+      operationId: createReport
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoReportBody'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoReport'
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: Create todo report
+      tags:
+        - Report
+      x-eov-operation-handler: controllers/ReportController
+  /todo/report/update/{reportId}:
+    put:
+      operationId: updateReportById
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: reportId
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoReportUpdateBody'
+      responses:
+        '204':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: Update Todo Report
+      tags:
+        - Report
+      x-eov-operation-handler: controllers/ReportController
+  /todo/report/get/{reportId}:
+    get:
+      operationId: getReportById
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: reportId
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoReport'
+          description: OK
+        '404':
+          description: Not Found
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - Report
+      x-eov-operation-handler: controllers/ReportController
+  /todo/report/get:
+    get:
+      operationId: getAll
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoReport'
+          description: OK
+        '404':
+          description: Not Found
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - Report
+      x-eov-operation-handler: controllers/ReportController
+  /todo/report/delete/{reportId}:
+    delete:
+      operationId: softDeleteReportById
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: reportId
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      security:
+        - FirebaseAuthentication: []
+      summary: deletes Todo report by reportId
+      tags:
+        - Report
+      x-eov-operation-handler: controllers/ReportController
+  /user/dxcore/cronJobWeekly:
+    get:
+      operationId: addDxCoreData
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      summary: Cron Job to save dxcore user data
+      tags:
+        - addDxCoreDataCronJob
+      x-eov-operation-handler: controllers/AddDxCoreDataCronJobController
+  /builmirai/device/cronJobDaily:
+    get:
+      operationId: addBuilMiraiDeviceData
+      parameters:
+        - description: fromDate for filtering (date should be in utc format)
+          explode: true
+          in: query
+          name: fromDate
+          required: false
+          schema:
+            format: date-time
+            type: string
+          style: form
+        - description: toDate for filtering (date should be in utc format)
+          explode: true
+          in: query
+          name: toDate
+          required: false
+          schema:
+            format: date-time
+            type: string
+          style: form
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      summary: Cron Job to save builmirai device data
+      tags:
+        - addBuilMiraiDeviceDataCronJob
+      x-eov-operation-handler: controllers/AddBuilMiraiDeviceDataCronJobController
+components:
+  parameters:
+    DO_NOT_USE_THIS_authorization:
+      description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+      explode: false
+      in: header
+      name: authorization
+      required: false
+      schema:
+        type: string
+      style: simple
+    internalHeader:
+      description: Only for internal header.
+      explode: false
+      in: header
+      name: xsecretrequestkey
+      required: false
+      schema:
+        type: string
+      style: simple
+    smbId:
+      description: Id of specific Smb
+      explode: false
+      in: path
+      name: smbId
+      required: true
+      schema:
+        type: string
+      style: simple
+    reportId:
+      description: Id of specific Report
+      explode: false
+      in: path
+      name: reportId
+      required: true
+      schema:
+        type: string
+      style: simple
+  requestBodies:
+    inline_object_1:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object_1'
+    inline_object:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object'
+    CheckUserPermissionBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CheckUserPermissionBody'
+  schemas:
+    Uuidv4:
+      pattern: ^[a-zA-Z0-9]{20,30}$|^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$
+      title: Uuidv4
+      type: string
+    InternalGetCustomersBody:
+      example:
+        customerIds:
+          - null
+          - null
+      properties:
+        customerIds:
+          items:
+            $ref: '#/components/schemas/Uuidv4'
+          type: array
+      title: InternalGetCustomersBody
+    UserList:
+      example:
+        totalPage: 0.8008281904610115
+        list:
+          - createdAt: createdAt
+            amo:
+              createdAt: 2000-01-23T04:56:07.000+00:00
+              amoId: amoId
+              updatedAt: 2000-01-23T04:56:07.000+00:00
+            role: sv
+            amoId: amoId
+            smbId: smbId
+            smb:
+              createdAt: 2000-01-23T04:56:07.000+00:00
+              smbId: smbId
+              updatedAt: 2000-01-23T04:56:07.000+00:00
+            userId: userId
+            updatedAt: updatedAt
+            status: ACTIVE
+          - createdAt: createdAt
+            amo:
+              createdAt: 2000-01-23T04:56:07.000+00:00
+              amoId: amoId
+              updatedAt: 2000-01-23T04:56:07.000+00:00
+            role: sv
+            amoId: amoId
+            smbId: smbId
+            smb:
+              createdAt: 2000-01-23T04:56:07.000+00:00
+              smbId: smbId
+              updatedAt: 2000-01-23T04:56:07.000+00:00
+            userId: userId
+            updatedAt: updatedAt
+            status: ACTIVE
+      properties:
+        list:
+          items:
+            $ref: '#/components/schemas/UserBody'
+          type: array
+        totalPage:
+          type: number
+      title: UserList
+    User:
+      example:
+        userRole:
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          emailAddress: emailAddress
+          amo:
+            createdAt: 2000-01-23T04:56:07.000+00:00
+            amoId: amoId
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          smb:
+            createdAt: 2000-01-23T04:56:07.000+00:00
+            smbId: smbId
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        userRole:
+          $ref: '#/components/schemas/UserRole'
+      title: user
+    UserBody:
+      example:
+        createdAt: createdAt
+        amo:
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          amoId: amoId
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        role: sv
+        amoId: amoId
+        smbId: smbId
+        smb:
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          smbId: smbId
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        userId: userId
+        updatedAt: updatedAt
+        status: ACTIVE
+      properties:
+        userId:
+          type: string
+        role:
+          enum:
+            - sv
+            - amo
+            - smb
+          type: string
+        amoId:
+          type: string
+        smbId:
+          type: string
+        amo:
+          $ref: '#/components/schemas/Amo'
+        smb:
+          $ref: '#/components/schemas/Smb'
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        status:
+          enum:
+            - ACTIVE
+            - INACTIVE
+          type: string
+      title: UserBody
+    UserRoleBody:
+      properties:
+        role:
+          enum:
+            - sv
+            - amo
+            - smb
+          type: string
+        amoId:
+          type: string
+        smbId:
+          type: string
+      title: UserRoleBody
+    UserRole:
+      allOf:
+        - $ref: '#/components/schemas/UserRoleBody'
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        emailAddress: emailAddress
+        amo:
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          amoId: amoId
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        smb:
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          smbId: smbId
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        emailAddress:
+          type: string
+        amo:
+          $ref: '#/components/schemas/Amo'
+        smb:
+          $ref: '#/components/schemas/Smb'
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+        - createdAt
+        - emailAddress
+        - updatedAt
+      title: UserRole
+    AmoBody:
+      example:
+        name: name
+        email: email
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+      required:
+        - email
+        - name
+      type: object
+    AmoStatusBody:
+      example:
+        isActive: true
+      properties:
+        isActive:
+          type: boolean
+      required:
+        - isActive
+      type: object
+    Amo:
+      allOf:
+        - $ref: '#/components/schemas/AmoBody'
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        amoId: amoId
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        amoId:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+        - amoId
+        - createdAt
+        - name
+        - updatedAt
+      type: object
+    SmbStatusBody:
+      example:
+        isActive: true
+      properties:
+        isActive:
+          type: boolean
+      required:
+        - isActive
+      type: object
+    SmbBody:
+      example:
+        address: address
+        cancelationPolicy: cancelationPolicy
+        description: description
+        subRole: MEC
+        logoUrl: https://openapi-generator.tech
+        precaution: precaution
+        cancellationPolicyOfReservation: cancellationPolicyOfReservation
+        precautionOfReservation: precautionOfReservation
+        amoId: amoId
+        imageUrls:
+          - imageUrls
+          - imageUrls
+        name: name
+        closeTime: closeTime
+        facilityIntroduction: facilityIntroduction
+        openTime: openTime
+        reservableItemMapImageUrls:
+          - reservableItemMapImageUrls
+          - reservableItemMapImageUrls
+        email: email
+        optionalEmails:
+          - optionalEmails
+          - optionalEmails
+        resourceType: CoWorkingSpace
+      properties:
+        amoId:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        optionalEmails:
+          items:
+            type: string
+          type: array
+        imageUrls:
+          format: uri
+          items:
+            type: string
+          type: array
+        description:
+          type: string
+        precaution:
+          type: string
+        cancelationPolicy:
+          type: string
+        resourceType:
+          enum:
+            - CoWorkingSpace
+            - Activity
+            - BoatTour
+            - EventTicket
+          type: string
+        address:
+          type: string
+        openTime:
+          format: time
+          type: string
+        closeTime:
+          format: time
+          type: string
+        reservableItemMapImageUrls:
+          format: uri
+          items:
+            type: string
+          type: array
+        logoUrl:
+          format: uri
+          type: string
+        facilityIntroduction:
+          type: string
+        precautionOfReservation:
+          type: string
+        cancellationPolicyOfReservation:
+          type: string
+        subRole:
+          enum:
+            - MEC
+            - DRIVERY
+            - THY
+          type: string
+      required:
+        - amoId
+        - email
+        - name
+    SmbUpdateBody:
+      example:
+        address: address
+        cancelationPolicy: cancelationPolicy
+        description: description
+        subRole: MEC
+        logoUrl: https://openapi-generator.tech
+        precaution: precaution
+        cancellationPolicyOfReservation: cancellationPolicyOfReservation
+        precautionOfReservation: precautionOfReservation
+        imageUrls:
+          - imageUrls
+          - imageUrls
+        name: name
+        closeTime: closeTime
+        facilityIntroduction: facilityIntroduction
+        openTime: openTime
+        reservableItemMapImageUrls:
+          - reservableItemMapImageUrls
+          - reservableItemMapImageUrls
+        email: email
+        optionalEmails:
+          - optionalEmails
+          - optionalEmails
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        optionalEmails:
+          items:
+            type: string
+          type: array
+        imageUrls:
+          format: uri
+          items:
+            type: string
+          type: array
+        description:
+          type: string
+        precaution:
+          type: string
+        cancelationPolicy:
+          type: string
+        address:
+          type: string
+        openTime:
+          format: time
+          type: string
+        closeTime:
+          format: time
+          type: string
+        reservableItemMapImageUrls:
+          format: uri
+          items:
+            type: string
+          type: array
+        logoUrl:
+          format: uri
+          type: string
+        facilityIntroduction:
+          type: string
+        precautionOfReservation:
+          type: string
+        cancellationPolicyOfReservation:
+          type: string
+        subRole:
+          enum:
+            - MEC
+            - DRIVERY
+            - THY
+          type: string
+      required:
+        - email
+        - name
+    Smb:
+      allOf:
+        - $ref: '#/components/schemas/SmbBody'
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        smbId: smbId
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        smbId:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+        - amoId
+        - createdAt
+        - name
+        - smbId
+        - updatedAt
+      title: SMB
+    ReportUpdateBody:
+      example:
+        reportType: reportType
+        reportLink: reportLink
+        name: name
+      properties:
+        reportLink:
+          type: string
+        reportType:
+          type: string
+        name:
+          type: string
+      required:
+        - name
+        - reportLink
+        - reportType
+    Report:
+      allOf:
+        - $ref: '#/components/schemas/ReportUpdateBody'
+      example:
+        reportId: reportId
+        smbId: smbId
+      properties:
+        reportId:
+          type: string
+        smbId:
+          type: string
+      required:
+        - reportId
+        - smbId
+    CustomerBody:
+      example:
+        lastName: lastName
+        gender: MALE
+        city: city
+        dateOfBirth: dateOfBirth
+        language: language
+        socialAccount: EMAIL
+        isActive: true
+        firstName: firstName
+        connectedFirebaseId: connectedFirebaseId
+        customerType: REGULAR
+        emailAddress: emailAddress
+        phoneNumber: phoneNumber
+        isDeleted: true
+        province: province
+        pronounceFirstName: pronounceFirstName
+        pronounceLastName: pronounceLastName
+        customerId: customerId
+        nickname: nickname
+        postCode: postCode
+        residenceArea: residenceArea
+        acceptDirectMail: true
+        email: email
+        username: username
+      properties:
+        customerId:
+          type: string
+        connectedFirebaseId:
+          type: string
+        email:
+          type: string
+        socialAccount:
+          enum:
+            - EMAIL
+            - FACEBOOK
+            - TWITTER
+            - APPLE
+            - GOOGLE
+          type: string
+        customerType:
+          enum:
+            - REGULAR
+            - GUEST
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        nickname:
+          type: string
+        dateOfBirth:
+          type: string
+        postCode:
+          type: string
+        gender:
+          enum:
+            - MALE
+            - FEMALE
+            - OTHER
+          type: string
+        residenceArea:
+          type: string
+        acceptDirectMail:
+          type: boolean
+        emailAddress:
+          type: string
+        language:
+          type: string
+        phoneNumber:
+          type: string
+        isActive:
+          type: boolean
+        isDeleted:
+          type: boolean
+        username:
+          type: string
+        city:
+          type: string
+        province:
+          type: string
+        pronounceFirstName:
+          type: string
+        pronounceLastName:
+          type: string
+      required:
+        - email
+        - firstName
+        - lastName
+      title: CustomerBody
+      type: object
+    Customer:
+      allOf:
+        - $ref: '#/components/schemas/CustomerBody'
+      example:
+        serviceType: CoWorkingSpace
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        customerId: customerId
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        customerId:
+          type: string
+        serviceType:
+          enum:
+            - CoWorkingSpace
+            - Reservation
+            - Application
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+        - createdAt
+        - customerId
+        - updatedAt
+      title: Customer
+      type: object
+    CustomerList:
+      example:
+        totalPage: 0.8008281904610115
+        list:
+          - serviceType: CoWorkingSpace
+            createdAt: 2000-01-23T04:56:07.000+00:00
+            customerId: customerId
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          - serviceType: CoWorkingSpace
+            createdAt: 2000-01-23T04:56:07.000+00:00
+            customerId: customerId
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        list:
+          items:
+            $ref: '#/components/schemas/Customer'
+          type: array
+        totalPage:
+          type: number
+      title: CustomerList
+    GenerateOtpBody:
+      example:
+        email: email
+      properties:
+        email:
+          type: string
+      required:
+        - email
+      title: generateOtpBody
+    VerifyOtpBody:
+      allOf:
+        - $ref: '#/components/schemas/CustomerBody'
+      example:
+        password: password
+        otp: otp
+        hash: hash
+      properties:
+        hash:
+          type: string
+        otp:
+          type: string
+        password:
+          type: string
+      required:
+        - hash
+        - otp
+        - password
+      title: verifyOtpBody
+    DeviceTokenBody:
+      example:
+        serviceType: CoWorkingSpace
+        deviceToken: deviceToken
+      properties:
+        deviceToken:
+          type: string
+        serviceType:
+          enum:
+            - CoWorkingSpace
+            - Reservation
+            - Application
+          type: string
+      required:
+        - deviceToken
+        - serviceType
+      title: DeviceTokenBody
+      type: object
+    UserDeviceToken:
+      allOf:
+        - $ref: '#/components/schemas/DeviceTokenBody'
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        userDeviceTokenId: userDeviceTokenId
+        email: email
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        userDeviceTokenId:
+          type: string
+        email:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+        - createdAt
+        - email
+        - updatedAt
+        - userDeviceTokenId
+      title: UserDeviceToken
+      type: object
+    UserDeviceTokenResponseBody:
+      example:
+        deviceTokens:
+          - createdAt: 2000-01-23T04:56:07.000+00:00
+            userDeviceTokenId: userDeviceTokenId
+            email: email
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          - createdAt: 2000-01-23T04:56:07.000+00:00
+            userDeviceTokenId: userDeviceTokenId
+            email: email
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+        userDetails: '{}'
+        email: email
+      properties:
+        email:
+          type: string
+        deviceTokens:
+          items:
+            $ref: '#/components/schemas/UserDeviceToken'
+          type: array
+        userDetails:
+          type: object
+      required:
+        - deviceTokens
+        - email
+      title: UserDeviceTokenResponseBody
+      type: object
+    DxCoreUserDeviceTokenResponseBody:
+      example:
+        deviceTokens:
+          - createdAt: 2000-01-23T04:56:07.000+00:00
+            userDeviceTokenId: userDeviceTokenId
+            email: email
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          - createdAt: 2000-01-23T04:56:07.000+00:00
+            userDeviceTokenId: userDeviceTokenId
+            email: email
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+        email: email
+      properties:
+        email:
+          type: string
+        deviceTokens:
+          items:
+            $ref: '#/components/schemas/UserDeviceToken'
+          type: array
+      required:
+        - deviceTokens
+        - email
+      title: DxCoreUserDeviceTokenResponseBody
+      type: object
+    TodoReportBody:
+      example:
+        reportType: PDF
+        reportLink: reportLink
+        Smbid: Smbid
+        name: name
+      properties:
+        name:
+          type: string
+        Smbid:
+          type: string
+        reportLink:
+          type: string
+        reportType:
+          enum:
+            - PDF
+            - LookerStudio
+          type: string
+      required:
+        - Smbid
+        - name
+        - reportLink
+        - reportType
+      title: TodoReportBody
+      type: object
+    TodoReportUpdateBody:
+      example:
+        reportType: PDF
+        reportLink: reportLink
+        name: name
+      properties:
+        name:
+          type: string
+        reportLink:
+          type: string
+        reportType:
+          enum:
+            - PDF
+            - LookerStudio
+          type: string
+      required:
+        - name
+        - reportLink
+        - reportType
+      title: TodoReportBody
+      type: object
+    TodoReport:
+      allOf:
+        - $ref: '#/components/schemas/TodoReportBody'
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        reportId: reportId
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        reportId:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+        - createdAt
+        - reportId
+        - updatedAt
+      title: TodoReport
+      type: object
+    inline_response_200:
+      example:
+        customerId: customerId
+        message: message
+      properties:
+        customerId:
+          type: string
+        message:
+          type: string
+      type: object
+    _permission_permissions:
+      properties:
+        subject:
+          type: string
+        resource:
+          type: string
+        action:
+          type: string
+      required:
+        - action
+        - resource
+        - subject
+      type: object
+    inline_object:
+      properties:
+        permissions:
+          items:
+            $ref: '#/components/schemas/_permission_permissions'
+          type: array
+      required:
+        - permissions
+      type: object
+    inline_object_1:
+      properties:
+        subject:
+          type: string
+        resource:
+          type: string
+        action:
+          type: string
+      required:
+        - action
+        - resource
+        - subject
+      type: object
+    CheckUserPermissionBody:
+      example:
+        action: action
+        userEmail: userEmail
+        resourceName: resourceName
+        id: id
+      properties:
+        action:
+          type: string
+        userEmail:
+          format: email
+          type: string
+        resourceName:
+          type: string
+        id:
+          type: string
+      required:
+        - action
+        - resourceName
+        - userEmail
+      title: CheckUserPermissionBody
+      type: object
+  securitySchemes:
+    FirebaseAuthentication:
+      scheme: bearer
+      type: http

@@ -1,0 +1,57 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "develop",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--dart-define",
+                "HORAI_MODE=develop",
+                "--web-port=8080"
+            ],
+            "env": {
+                "HORAI_MODE": "develop"
+            }
+        },
+        {
+            "name": "staging",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--dart-define",
+                "HORAI_MODE=$HORAI_MODE",
+                "--web-port=8080"
+            ],
+            "env": {
+                "HORAI_MODE": "staging"
+            }
+        },
+        {
+            "name": "mock",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--dart-define",
+                "HORAI_MODE=$HORAI_MODE",
+                "--web-port=8080"
+            ],
+            "env": {
+                "HORAI_MODE": "mock"
+            }
+        },
+        {
+            "name": "production",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--dart-define",
+                "HORAI_MODE=$HORAI_MODE",
+                "--web-port=8080"
+            ],
+            "env": {
+                "HORAI_MODE": "production"
+            }
+        }
+    ]
+}

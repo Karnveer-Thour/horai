@@ -1,0 +1,289 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  email     String     @id
+  userId    String?
+  role      String?
+  amoId     String?
+  smbId     String?
+  createdAt DateTime
+  updatedAt DateTime
+  status    UserStatus @default(ACTIVE)
+}
+
+model Smb {
+  smbId                           String       @id
+  amoId                           String
+  name                            String
+  email                           String
+  optionalEmails                  String[]
+  imageUrls                       String[]
+  resourceType                    ResourceEnum @default(Activity)
+  description                     String?
+  precaution                      String?
+  cancelationPolicy               String?
+  precautionOfReservation         String?
+  cancellationPolicyOfReservation String?
+  address                         String?
+  openTime                        String?
+  closeTime                       String?
+  logoUrl                         String?
+  facilityIntroduction            String?
+  reservableItemMapImageUrls      String[]
+  isActive                        Boolean      @default(true)
+  subRole                         String?
+  createdAt                       DateTime
+  updatedAt                       DateTime
+
+  TodoReport TodoReport[]
+}
+
+model Amo {
+  amoId     String   @id
+  name      String
+  email     String
+  isActive  Boolean  @default(true)
+  createdAt DateTime
+  updatedAt DateTime
+}
+
+model Customer {
+  customerId          String        @id
+  connectedFirebaseId String        @unique
+  email               String
+  socialAccount       SocialAccount @default(EMAIL)
+  createdAt           DateTime
+  updatedAt           DateTime
+  isDeleted           Boolean       @default(false)
+  bizUserId           String?       @default("")
+  bizPayload          String?       @default("")
+  isBizUser           Boolean       @default(false)
+
+  reservationCustomerDetail ReservationCustomerDetail?
+  applicationCustomerDetail ApplicationCustomerDetail?
+  ConnectedCustomerDetails  ConnectedCustomerDetails[]
+}
+
+model ConnectedCustomerDetails {
+  connectedCustomerDetailsId String   @id
+  customerId                 String
+  appType                    String
+  connectedCustomerPayload   String
+  isActive                   Boolean
+  createdAt                  DateTime
+  updatedAt                  DateTime
+
+  customer Customer @relation(fields: [customerId], references: [customerId])
+}
+
+model ReservationCustomerDetail {
+  reservationCustomerDetailId String       @id
+  customerId                  String       @unique
+  customerType                CustomerType @default(REGULAR)
+  firstName                   String
+  lastName                    String?      @default("")
+  nickname                    String?      @default("")
+  dateOfBirth                 String?      @default("")
+  postCode                    String?      @default("")
+  gender                      GenderType?
+  residenceArea               String?      @default("")
+  acceptDirectMail            Boolean      @default(false)
+  emailAddress                String?      @default("")
+  language                    String?      @default("ja")
+  phoneNumber                 String?
+  isActive                    Boolean      @default(true)
+  isDeleted                   Boolean      @default(false)
+  createdAt                   DateTime
+  updatedAt                   DateTime
+  username                    String?      @default("")
+  city                        String?      @default("")
+  province                    String?      @default("")
+  pronounceFirstName          String?      @default("")
+  pronounceLastName           String?      @default("")
+
+  customer Customer @relation(fields: [customerId], references: [customerId])
+}
+
+model ApplicationCustomerDetail {
+  applicationCustomerDetailId String       @id
+  customerId                  String       @unique
+  customerType                CustomerType @default(REGULAR)
+  firstName                   String
+  lastName                    String?      @default("")
+  nickname                    String?      @default("")
+  dateOfBirth                 String?      @default("")
+  postCode                    String?      @default("")
+  gender                      GenderType?
+  residenceArea               String?      @default("")
+  acceptDirectMail            Boolean      @default(false)
+  emailAddress                String?      @default("")
+  language                    String?      @default("ja")
+  phoneNumber                 String?
+  isActive                    Boolean      @default(true)
+  isDeleted                   Boolean      @default(false)
+  createdAt                   DateTime
+  updatedAt                   DateTime
+  username                    String?      @default("")
+  city                        String?      @default("")
+  province                    String?      @default("")
+  pronounceFirstName          String?      @default("")
+  pronounceLastName           String?      @default("")
+
+  customer Customer @relation(fields: [customerId], references: [customerId])
+}
+
+model Report {
+  reportId   String     @id
+  smbId      String
+  reportLink String
+  reportType ReportType
+  name       String
+  createdAt  DateTime
+  updatedAt  DateTime
+}
+
+model TodoReport {
+  reportId   String     @id
+  smbId      String
+  reportLink String
+  reportType ReportType
+  name       String
+  isActive   Boolean    @default(true)
+  createdAt  DateTime
+  updatedAt  DateTime
+
+  smb Smb @relation(fields: [smbId], references: [smbId])
+}
+
+enum ReportType {
+  PDF
+  LookerStudio
+}
+
+enum CustomerType {
+  GUEST
+  REGULAR
+}
+
+enum ServiceType {
+  CoWorkingSpace
+  Reservation
+  Application
+}
+
+enum GenderType {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum ResourceEnum {
+  CoWorkingSpace
+  Activity
+  BoatTour
+  EventTicket
+  CoWorkingSpace2
+}
+
+enum SocialAccount {
+  FACEBOOK
+  TWITTER
+  APPLE
+  GOOGLE
+  EMAIL
+}
+
+model CasbinRule {
+  id    Int     @id @default(autoincrement())
+  ptype String
+  v0    String?
+  v1    String?
+  v2    String?
+  v3    String?
+  v4    String?
+  v5    String?
+}
+
+model UserDeviceToken {
+  userDeviceTokenId String   @id
+  deviceToken       String
+  email             String
+  serviceType       String
+  createdAt         DateTime
+  updatedAt         DateTime
+
+  @@unique([email, deviceToken, serviceType])
+}
+
+model ActCast {
+  actCastId String   @id
+  deviceId  String
+  timestamp String
+  lineId    Int
+  forward   Int
+  backward  Int
+  createdAt DateTime
+  updatedAt DateTime
+}
+
+model EmiPeopleCounterHead {
+  emiPeopleCounterHeadId String   @id
+  cameraId               String
+  timestamp              String
+  peopleCount            Int
+  areaName               String
+  sendTrigger            Int
+  createdAt              DateTime
+  updatedAt              DateTime
+}
+
+model EmiPeopleCounterHeadCross {
+  emiPeopleCounterHeadCrossId String   @id
+  uuid                        String
+  timestamp                   String
+  timestampFrom               String
+  lineId                      String
+  intoInside                  Int
+  count                       Int
+  elapsedSeconds              Int
+  createdAt                   DateTime
+  updatedAt                   DateTime
+}
+
+model Congestioninsight {
+  congestioninsightId String   @id
+  deviceId            String
+  timestamp           String
+  count               Int
+  createdAt           DateTime
+  updatedAt           DateTime
+}
+
+model BuilMiraiDevice {
+  builMiraiDeviceId String   @id
+  deviceId          String
+  messageId         String
+  deviceType        String
+  dataType          String
+  messageType       String
+  value             String
+  unit              String
+  errorFlg          Boolean
+  eventDate         DateTime
+  dataReceiveDate   DateTime
+  createdon         DateTime
+  createdAt         DateTime
+  updatedAt         DateTime
+}

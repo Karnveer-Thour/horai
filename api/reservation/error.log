@@ -1,0 +1,10 @@
+{"level":"error","message":"Express Server failure","service":"user-service","timestamp":"2024-10-23T18:19:44.285Z"}
+{"level":"error","service":"user-service","timestamp":"2024-10-23T18:19:44.291Z"}
+{"level":"error","message":"Express Server failure","service":"user-service","timestamp":"2024-10-23T18:22:45.346Z"}
+{"level":"error","service":"user-service","timestamp":"2024-10-23T18:22:45.349Z"}
+{"level":"error","message":"Express Server failure","service":"user-service","timestamp":"2024-10-24T17:20:17.583Z"}
+{"level":"error","service":"user-service","timestamp":"2024-10-24T17:20:17.587Z"}
+{"level":"error","message":"Express Server failure","service":"user-service","timestamp":"2024-12-05T05:54:30.486Z"}
+{"level":"error","service":"user-service","timestamp":"2024-12-05T05:54:30.490Z"}
+{"level":"error","message":"Express Server failure","service":"user-service","timestamp":"2024-12-05T05:55:17.342Z"}
+{"level":"error","service":"user-service","timestamp":"2024-12-05T05:55:17.346Z"}

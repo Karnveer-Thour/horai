@@ -1,0 +1,23 @@
+import { ResourceEnum } from '../../../src/domains/ResourceEnum';
+import { SmbSubRoleEnum } from '../../../src/domains/Smb';
+export type Smb = {
+    smbId: string;
+    amoId: string;
+    name: string;
+    email: string;
+    optionalEmails: string[];
+    description: string;
+    precaution: string;
+    cancelationPolicy: string;
+    resourceType: ResourceEnum;
+    imageUrls: string[];
+    address: string;
+    openTime: string;
+    closeTime: string;
+    reservableItemMapImageUrls: string[];
+    logoUrl: string;
+    facilityIntroduction: string;
+    precautionOfReservation?: string;
+    cancellationPolicyOfReservation?: string;
+    subRole: SmbSubRoleEnum | null;
+};

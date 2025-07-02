@@ -1,0 +1,22 @@
+get:
+  summary: Front-end don't use this api. Check user permission
+  operationId: internalGetAllowedEventIds
+  tags:
+    - InternalCustomers
+  parameters:
+    - $ref: '../openapi.yaml#/components/parameters/internalHeader'
+    - $ref: '../openapi.yaml#/components/parameters/DO_NOT_USE_THIS_authorization'
+    - name: userEmail
+      schema:
+        type: string
+      required: true
+      in: path
+  responses:
+    200:
+      description: OK
+    401:
+      description: Unauthorized
+    404:
+      description: Not Found
+    500:
+      description: Internal Server Error

@@ -1,0 +1,25 @@
+post:
+  summary: Verify OTP and create guest user entry
+  operationId: verifyOtpAndCreateGuestCustomer
+  tags:
+    - Auth
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../openapi.yaml#/components/schemas/VerifyOtpBody'
+  responses:
+    200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            properties:
+              customerId:
+                type: string
+              message:
+                type: string
+    404:
+      description: Not Found
+    500:
+      description: Internal Server Error

@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "target": "ES2020",
+        "module": "CommonJS",
+        "types": ["jest", "node"],
+        "skipLibCheck": true,
+        "outDir": "build",
+        "rootDir": "./",
+        "allowJs": true,
+        "incremental": true,
+        "esModuleInterop": true,
+        "strict": true,
+        "strictNullChecks": true,
+        "noImplicitReturns": true,
+        "noImplicitAny": true,
+        "experimentalDecorators": true,
+        "useUnknownInCatchVariables": false
+    },
+    "compileOnSave": true,
+    "include": ["src/**/*.ts", "src/**/*.js", "__tests__", "tools"],
+    "exclude": ["node_modules", "build"]
+}
