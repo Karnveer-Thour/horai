@@ -2460,6 +2460,34 @@ paths:
           schema:
             type: string
           style: simple
+        - explode: true
+          in: query
+          name: page
+          required: false
+          schema:
+            type: number
+          style: form
+        - explode: true
+          in: query
+          name: limit
+          required: false
+          schema:
+            type: number
+          style: form
+        - explode: true
+          in: query
+          name: searchText
+          required: false
+          schema:
+            type: string
+          style: form
+        - explode: true
+          in: query
+          name: reportType
+          required: false
+          schema:
+            type: string
+          style: form
       responses:
         '200':
           content:

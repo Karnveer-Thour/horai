@@ -145,7 +145,7 @@ AddBuilMiraiDeviceDataCronJobService.addBuilMiraiDeviceData = addBuilMiraiDevice
 //todo report
 ReportService.createReport = createReport;
 ReportService.getReportById = getReportById;
-ReportService.getAll=getAllReports;
+ReportService.getAll = getAllReports;
 ReportService.updateReportById = updateReportById;
 ReportService.softDeleteReportById = softDeleteReportById;
 

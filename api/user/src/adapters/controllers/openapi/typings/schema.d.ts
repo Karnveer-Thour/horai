@@ -565,6 +565,16 @@ declare namespace Paths {
     namespace GetAll {
         namespace Parameters {
             export type $0 = Components.Parameters.DONOTUSETHISAuthorization;
+            export type Limit = number;
+            export type Page = number;
+            export type ReportType = string;
+            export type SearchText = string;
+        }
+        export interface QueryParameters {
+            page?: Parameters.Page;
+            limit?: Parameters.Limit;
+            searchText?: Parameters.SearchText;
+            reportType?: Parameters.ReportType;
         }
         namespace Responses {
             export type $200 = /* TodoReport */ Components.Schemas.TodoReport;

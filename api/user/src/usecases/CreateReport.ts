@@ -18,11 +18,11 @@ export class CreateReport {
 
     public execute = async (input: TodoReportBody, user?: LoggedInUser) => {
         if (!user) {
-            return new UnauthorizedError();
+            throw new UnauthorizedError();
         }
 
-        if (user.isSmb() || user.isAmo()) {
-            return new UnauthorizedError('User not allowed');
+        if (!user.isSv()) {
+            throw new UnauthorizedError('User not allowed');
         }
 
         const now = this.dateTimeRepository.now();
@@ -37,10 +37,7 @@ export class CreateReport {
             now,
         );
         await this.todoreportRepository.save(report);
-        if (user.isSv()) {
-            return report.toAdminReportDto();
-        } else {
-            return report.toCustomerReportDto();
-        }
+
+        return report.toAdminReportDto();
     };
 }

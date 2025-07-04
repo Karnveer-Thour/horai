@@ -2,6 +2,7 @@ import { injectable } from 'inversify';
 import { TodoReport as DomainReport } from '../../../../domains/TodoReport';
 import { dbConnection } from '../../../../infrastructures/config/IoC/inversify.config';
 import { transformTodoReportFromDomain, transformTodoReportToDomain } from './transformers/ReportTransformers';
+import { PaginationObj } from '../../../../domains/dtos/PageinatedListDTO';
 
 @injectable()
 export class PostgresTodoReportRepository {
@@ -24,12 +25,34 @@ export class PostgresTodoReportRepository {
         });
     };
 
-    public getAll = async (): Promise<DomainReport[]> => {
+    public getAllWithPagination = async (
+        pagination: PaginationObj,
+        searchText: string,
+        reportType?: string,
+    ): Promise<DomainReport[]> => {
+        const whereCondition: any = {
+                isActive: true,
+        };
+
+        if (searchText) {
+            whereCondition.name = {
+                contains: searchText,
+                mode: 'insensitive',
+            };
+        }
+
+        if (reportType) {
+            whereCondition.reportType = reportType;
+        }
+
         const prisma = dbConnection.getInstance();
         const reports = await prisma.todoReport.findMany({
-            where: {
-                isActive: true,
+            skip: (pagination.page - 1) * pagination.pageSize,
+            take: Number(pagination.pageSize),
+            orderBy: {
+                updatedAt: 'desc',
             },
+            where: whereCondition,
         });
 
         return reports.map(transformTodoReportToDomain);
@@ -42,8 +65,7 @@ export class PostgresTodoReportRepository {
         return reports.map(transformTodoReportToDomain);
     };
 
-    public softDeleteById = async (reportId: string) => {
-        const now = new Date();
+    public softDeleteById = async (reportId: string, now: Date) => {
         const prisma = dbConnection.getInstance();
 
         await prisma.todoReport.update({

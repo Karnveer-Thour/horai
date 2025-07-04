@@ -41,7 +41,7 @@ export const updateReportById = async (input: {
 
 export const getReportById = async (input: { authorization: string; reportId: string }) => {
     try {
-        const usecase = new GetReportById(todoReportRepository);
+        const usecase = new GetReportById(todoReportRepository, dateTimeRepository);
         const loggedInUser = await Service.loggedInUser(input.authorization);
         const res = await usecase.execute(input.reportId, loggedInUser);
         return Service.successResponse(res, 200);
@@ -50,11 +50,17 @@ export const getReportById = async (input: { authorization: string; reportId: st
     }
 };
 
-export const getAllReports = async (input: { authorization: string }) => {
+export const getAllReports = async (input: {
+    authorization: string;
+    page: number;
+    limit: number;
+    searchText: string;
+    reportType: string;
+}) => {
     try {
         const usecase = new GetAllReports(todoReportRepository);
         const loggedInUser = await Service.loggedInUser(input.authorization);
-        const res = await usecase.execute(loggedInUser);
+        const res = await usecase.execute(input.page, input.limit, input.searchText, input.reportType, loggedInUser);
         return Service.successResponse(res, 200);
     } catch (e) {
         return Service.errorResponse(e);
@@ -63,7 +69,7 @@ export const getAllReports = async (input: { authorization: string }) => {
 
 export const softDeleteReportById = async (input: { authorization: string; reportId: string }) => {
     try {
-        const usecase = new SoftDeleteReportById(todoReportRepository);
+        const usecase = new SoftDeleteReportById(todoReportRepository, dateTimeRepository);
         const loggedInUser = await Service.loggedInUser(input.authorization);
         const res = await usecase.execute(input.reportId, loggedInUser);
         return Service.successResponse({}, 204);

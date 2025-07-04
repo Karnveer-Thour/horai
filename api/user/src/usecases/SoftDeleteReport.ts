@@ -3,20 +3,26 @@ import TodoReportBody = Components.Schemas.TodoReportBody;
 import { DateTimeRepository } from './repositories/DateTimeRepository';
 import { ReportRepository } from './repositories/ReportRepository';
 import { UserRepository } from './repositories/UserRepository';
-import { LoggedInUser } from '@scheme-verge-inc/firebase-authenticator';
 import { UnauthorizedError } from './errors/UnauthorizedError';
 import { NotFoundError } from './errors/NotFoundError';
 import { TodoReportRepository } from './repositories/TodoReportRepository';
+import { LoggedInUser } from '../domains/LoggedInUser';
 
 export class SoftDeleteReportById {
-    constructor(readonly todoReportRepository: TodoReportRepository) {}
+    constructor(readonly todoReportRepository: TodoReportRepository, readonly dateTimeRepository: DateTimeRepository) {}
 
     public execute = async (reportId: string, user?: LoggedInUser) => {
         if (!user) {
             throw new UnauthorizedError();
         }
 
-        const reportById = await this.todoReportRepository.softDeleteById(reportId);
+        if (!user.isSv()) {
+            throw new UnauthorizedError('User not allowed');
+        }
+
+        const now = this.dateTimeRepository.now();
+
+        const reportById = await this.todoReportRepository.softDeleteById(reportId, now);
         return reportById;
     };
 }

@@ -24,14 +24,22 @@ const createReport = ({ authorization, todoReportBody }) =>
 /**
  *
  * authorization String 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用. (optional)
+ * page BigDecimal  (optional)
+ * limit BigDecimal  (optional)
+ * searchText String  (optional)
+ * reportType String  (optional)
  * returns TodoReport
  * */
-const getAll = ({ authorization }) =>
+const getAll = ({ authorization, page, limit, searchText, reportType }) =>
     new Promise(async (resolve, reject) => {
         try {
             resolve(
                 Service.successResponse({
                     authorization,
+                    page,
+                    limit,
+                    searchText,
+                    reportType,
                 }),
             );
         } catch (e) {
