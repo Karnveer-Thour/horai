@@ -63,6 +63,8 @@ import { TodoReportRepository } from '../../../usecases/repositories/TodoReportR
 import { PostgresTodoReportRepository } from '../../../adapters/gateways/repositories/postgres/PostgresTodoReportRepository';
 import { UserRepository } from '../../../usecases/repositories/UserRepository';
 import { PostgresUserRepository } from '../../../adapters/gateways/repositories/postgres/PostgresUserRepository';
+import { TodoReportHistoryRepository } from '../../../usecases/repositories/TodoReportRepositoryHistory';
+import { PostgresTodoReportHistoryRepository } from '../../../adapters/gateways/repositories/postgres/PostgresTodoReportHistoryRepository';
 
 const rootContainer = new Container();
 
@@ -91,6 +93,9 @@ rootContainer.bind<SmbRepository>(TYPES.REPOSITORIES.SmbRepository).to(PostgresS
 rootContainer.bind<CustomerRepository>(TYPES.REPOSITORIES.CustomerRepository).to(PostgresCustomerRepository);
 rootContainer.bind<UserRepository>(TYPES.REPOSITORIES.UserRepository).to(PostgresUserRepository);
 rootContainer.bind<TodoReportRepository>(TYPES.REPOSITORIES.TodoReportRepository).to(PostgresTodoReportRepository);
+rootContainer
+    .bind<TodoReportHistoryRepository>(TYPES.REPOSITORIES.TodoReportHistoryRepository)
+    .to(PostgresTodoReportHistoryRepository);
 rootContainer
     .bind<ReservationCustomerRepository>(TYPES.REPOSITORIES.ReservationCustomerRepository)
     .to(PostgresReservationCustomerRepository);
@@ -131,6 +136,9 @@ const stripeCustomerRepository = rootContainer.get<StripeCustomerRepository>(
 );
 const amoRepository = rootContainer.get<AmoRepository>(TYPES.REPOSITORIES.AmoRepository);
 const todoReportRepository = rootContainer.get<TodoReportRepository>(TYPES.REPOSITORIES.TodoReportRepository);
+const todoReportHistoryRepository = rootContainer.get<TodoReportHistoryRepository>(
+    TYPES.REPOSITORIES.TodoReportHistoryRepository,
+);
 const smbRepository = rootContainer.get<SmbRepository>(TYPES.REPOSITORIES.SmbRepository);
 const userRepository = rootContainer.get<UserRepository>(TYPES.REPOSITORIES.UserRepository);
 const customerRepository = rootContainer.get<CustomerRepository>(TYPES.REPOSITORIES.CustomerRepository);
@@ -185,6 +193,7 @@ export {
     dateTimeRepository,
     stripeCustomerRepository,
     todoReportRepository,
+    todoReportHistoryRepository,
     userRepository,
     amoRepository,
     smbRepository,

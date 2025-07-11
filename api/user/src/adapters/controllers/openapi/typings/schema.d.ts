@@ -221,6 +221,25 @@ export declare namespace Components {
             reportType: 'PDF' | 'LookerStudio';
         }
         /**
+         * TodoReportHistory
+         */
+        export interface TodoReportHistory {
+            name: string;
+            Smbid: string;
+            reportLink: string;
+            reportType: 'PDF' | 'LookerStudio';
+            reportHistoryId: string;
+            createdAt: string; // date-time
+            updatedAt: string; // date-time
+        }
+        /**
+         * TodoReportHistoryBody
+         */
+        export interface TodoReportHistoryBody {
+            userId: string;
+            reportId: string;
+        }
+        /**
          * TodoReportBody
          */
         export interface TodoReportUpdateBody {
@@ -613,6 +632,25 @@ declare namespace Paths {
             export interface $500 {}
         }
     }
+    namespace GetAllReportHistory {
+        namespace Parameters {
+            export type $0 = Components.Parameters.DONOTUSETHISAuthorization;
+            export type Limit = number;
+            export type Page = number;
+            export type ReportType = string;
+            export type SearchText = string;
+        }
+        export interface QueryParameters {
+            page?: Parameters.Page;
+            limit?: Parameters.Limit;
+            searchText?: Parameters.SearchText;
+            reportType?: Parameters.ReportType;
+        }
+        namespace Responses {
+            export type $200 = /* TodoReportHistory */ Components.Schemas.TodoReportHistory[];
+            export interface $404 {}
+        }
+    }
     namespace GetAllSmbs {
         namespace Parameters {
             export type $0 = Components.Parameters.DONOTUSETHISAuthorization;
@@ -747,6 +785,45 @@ declare namespace Paths {
         }
         namespace Responses {
             export type $200 = /* TodoReport */ Components.Schemas.TodoReport;
+            export interface $404 {}
+        }
+    }
+    namespace GetReportHistoryById {
+        namespace Parameters {
+            export type $0 = Components.Parameters.DONOTUSETHISAuthorization;
+            export type ReportHistoryId = string;
+        }
+        export interface PathParameters {
+            reportHistoryId: Parameters.ReportHistoryId;
+        }
+        namespace Responses {
+            export type $200 = /* TodoReportHistory */ Components.Schemas.TodoReportHistory;
+            export interface $404 {}
+        }
+    }
+    namespace GetReportHistoryByReportId {
+        namespace Parameters {
+            export type $0 = Components.Parameters.DONOTUSETHISAuthorization;
+            export type ReportId = string;
+        }
+        export interface PathParameters {
+            reportId: Parameters.ReportId;
+        }
+        namespace Responses {
+            export type $200 = /* TodoReportHistory */ Components.Schemas.TodoReportHistory[];
+            export interface $404 {}
+        }
+    }
+    namespace GetReportHistoryBySmbId {
+        namespace Parameters {
+            export type $0 = Components.Parameters.DONOTUSETHISAuthorization;
+            export type SmbId = string;
+        }
+        export interface PathParameters {
+            smbId: Parameters.SmbId;
+        }
+        namespace Responses {
+            export type $200 = /* TodoReportHistory */ Components.Schemas.TodoReportHistory[];
             export interface $404 {}
         }
     }

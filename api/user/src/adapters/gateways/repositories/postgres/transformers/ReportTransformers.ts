@@ -44,6 +44,7 @@ export const transformTodoReportFromDomain = (d: TodoDomainReport): TodoReport =
         reportType: d.reportType,
         smbId: d.smbId,
         name: d.name,
+        isActive: true,
         createdAt: d.createdAt,
         updatedAt: d.updatedAt,
     };

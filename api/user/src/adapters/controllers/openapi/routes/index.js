@@ -59,7 +59,8 @@ import { internalCheckUserPermission, internalGetAllowedEventIds } from './Inter
 import { createPermission, deletePermission, updatePermission } from './PermissionHandler';
 import { addBuilMiraiDeviceData, addDxCoreData } from './CronJobHandler';
 import { createReport, getAllReports, getReportById, softDeleteReportById, updateReportById } from './PracticeCrud';
-import { ReportService } from '../generated/services';
+import { ReportHistoryService, ReportService } from '../generated/services';
+import { getAllReportHistoriesByReportId, getReportHistoryById, getReportsHistory } from './ReportHistoryHandler';
 
 service.hcGET = hcGET;
 service.getSmbs = getSmbsGET;
@@ -148,6 +149,13 @@ ReportService.getReportById = getReportById;
 ReportService.getAll = getAllReports;
 ReportService.updateReportById = updateReportById;
 ReportService.softDeleteReportById = softDeleteReportById;
+
+// Report History
+ReportHistoryService.getReportHistoryById = getReportHistoryById;
+ReportHistoryService.getAllReportHistory = getReportsHistory;
+ReportHistoryService.getReportHistoryByReportId = getAllReportHistoriesByReportId;
+ReportHistoryService.getReportHistoryBySmbId = getAllReportHistoriesByReportId;
+
 
 const gracefulShutdown = (server, closeFunctions) => async () => {
     await server.close().then(async () => {

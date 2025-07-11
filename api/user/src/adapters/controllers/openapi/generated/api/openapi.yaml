@@ -2536,6 +2536,165 @@ paths:
       tags:
         - Report
       x-eov-operation-handler: controllers/ReportController
+  /todo/reporthistory/{reportHistoryId}:
+    get:
+      operationId: getReportHistoryById
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: reportHistoryId
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoReportHistory'
+          description: ReportHistory found
+        '404':
+          description: Not Found
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - ReportHistory
+      x-eov-operation-handler: controllers/ReportHistoryController
+  /todo/reporthistory:
+    get:
+      operationId: getAllReportHistory
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: true
+          in: query
+          name: page
+          required: false
+          schema:
+            type: number
+          style: form
+        - explode: true
+          in: query
+          name: limit
+          required: false
+          schema:
+            type: number
+          style: form
+        - explode: true
+          in: query
+          name: searchText
+          required: false
+          schema:
+            type: string
+          style: form
+        - explode: true
+          in: query
+          name: reportType
+          required: false
+          schema:
+            type: string
+          style: form
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/TodoReportHistory'
+                type: array
+          description: List of report histories
+        '404':
+          description: Not Found
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - ReportHistory
+      x-eov-operation-handler: controllers/ReportHistoryController
+  /todo/reporthistory/by-smb/{smbId}:
+    get:
+      operationId: getReportHistoryBySmbId
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: smbId
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/TodoReportHistory'
+                type: array
+          description: List of report histories by SMB ID
+        '404':
+          description: Not Found
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - ReportHistory
+      x-eov-operation-handler: controllers/ReportHistoryController
+  /todo/reporthistory/by-report/{reportId}:
+    get:
+      operationId: getReportHistoryByReportId
+      parameters:
+        - description: 使用不可.　この変数は設定してはいけない.　bearer認証用token.　ServerCode生成用.
+          explode: false
+          in: header
+          name: authorization
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: reportId
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/TodoReportHistory'
+                type: array
+          description: List of report histories by report ID
+        '404':
+          description: Not Found
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - ReportHistory
+      x-eov-operation-handler: controllers/ReportHistoryController
   /user/dxcore/cronJobWeekly:
     get:
       operationId: addDxCoreData
@@ -3405,6 +3564,39 @@ components:
         - reportId
         - updatedAt
       title: TodoReport
+      type: object
+    TodoReportHistoryBody:
+      properties:
+        userId:
+          type: string
+        reportId:
+          type: string
+      required:
+        - reportId
+        - userId
+      title: TodoReportHistoryBody
+      type: object
+    TodoReportHistory:
+      allOf:
+        - $ref: '#/components/schemas/TodoReportBody'
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        reportHistoryId: reportHistoryId
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        reportHistoryId:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+        - createdAt
+        - reportHistoryId
+        - updatedAt
+      title: TodoReportHistory
       type: object
     inline_response_200:
       example:

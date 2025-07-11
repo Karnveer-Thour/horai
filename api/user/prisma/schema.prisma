@@ -9,13 +9,15 @@ generator client {
 
 model User {
   email     String     @id
-  userId    String?
+  userId    String?    @unique
   role      String?
   amoId     String?
   smbId     String?
   createdAt DateTime
   updatedAt DateTime
   status    UserStatus @default(ACTIVE)
+
+  ReportHistory ReportHistory[]
 }
 
 model Smb {
@@ -159,7 +161,19 @@ model TodoReport {
   createdAt  DateTime
   updatedAt  DateTime
 
-  smb Smb @relation(fields: [smbId], references: [smbId])
+  smb           Smb             @relation(fields: [smbId], references: [smbId])
+  ReportHistory ReportHistory[]
+}
+
+model ReportHistory {
+  reportHistoryId String   @id
+  userId          String
+  reportId        String
+  createdAt       DateTime
+  updatedAt       DateTime
+
+  updatedBy User       @relation(fields: [userId], references: [userId])
+  report    TodoReport @relation(fields: [reportId], references: [reportId])
 }
 
 enum ReportType {

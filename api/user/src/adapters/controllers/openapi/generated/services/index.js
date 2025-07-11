@@ -10,6 +10,7 @@ const InternalService = require('./InternalService');
 const InternalCustomersService = require('./InternalCustomersService');
 const PermissionService = require('./PermissionService');
 const ReportService = require('./ReportService');
+const ReportHistoryService = require('./ReportHistoryService');
 const UserService = require('./UserService');
 const UserDeviceTokenService = require('./UserDeviceTokenService');
 
@@ -26,6 +27,7 @@ module.exports = {
     InternalCustomersService,
     PermissionService,
     ReportService,
+    ReportHistoryService,
     UserService,
     UserDeviceTokenService,
 };

@@ -11,6 +11,7 @@ const TYPES = {
         SmbRepository: Symbol.for('SmbRepository'),
         UserRepository: Symbol.for('UserRepository'),
         TodoReportRepository: Symbol.for('TodoReportRepository'),
+        TodoReportHistoryRepository: Symbol.for('TodoReportHistoryRepository'),
         CustomerRepository: Symbol.for('CustomerRepository'),
         ApplicationCustomerRepository: Symbol.for('ApplicationCustomerRepository'),
         ConnectedCustomerRepository: Symbol.for('ConnectedCustomerRepository'),

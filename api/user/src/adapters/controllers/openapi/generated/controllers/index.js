@@ -10,6 +10,7 @@ const InternalController = require('./InternalController');
 const InternalCustomersController = require('./InternalCustomersController');
 const PermissionController = require('./PermissionController');
 const ReportController = require('./ReportController');
+const ReportHistoryController = require('./ReportHistoryController');
 const UserController = require('./UserController');
 const UserDeviceTokenController = require('./UserDeviceTokenController');
 
@@ -26,6 +27,7 @@ module.exports = {
     InternalCustomersController,
     PermissionController,
     ReportController,
+    ReportHistoryController,
     UserController,
     UserDeviceTokenController,
 };

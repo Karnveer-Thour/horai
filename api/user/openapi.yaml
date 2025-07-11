@@ -1564,6 +1564,22 @@ paths:
         - Report
       parameters:
         - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: page
+          schema:
+            type: number
+          in: query
+        - name: limit
+          schema:
+            type: number
+          in: query
+        - name: searchText
+          schema:
+            type: string
+          in: query
+        - name: reportType
+          schema:
+            type: string
+          in: query
       responses:
         '200':
           description: OK
@@ -1597,6 +1613,119 @@ paths:
           description: Not Found
         500:
           description: Internal Server Error
+  /todo/reporthistory/{reportHistoryId}:
+    get:
+      operationId: getReportHistoryById
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - ReportHistory
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: reportHistoryId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ReportHistory found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoReportHistory'
+        '404':
+          description: Not Found
+
+  /todo/reporthistory:
+    get:
+      operationId: getAllReportHistory
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - ReportHistory
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: page
+          in: query
+          schema:
+            type: number
+        - name: limit
+          in: query
+          schema:
+            type: number
+        - name: searchText
+          in: query
+          schema:
+            type: string
+        - name: reportType
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of report histories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TodoReportHistory'
+        '404':
+          description: Not Found
+
+  /todo/reporthistory/by-smb/{smbId}:
+    get:
+      operationId: getReportHistoryBySmbId
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - ReportHistory
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: smbId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of report histories by SMB ID
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TodoReportHistory'
+        '404':
+          description: Not Found
+
+  /todo/reporthistory/by-report/{reportId}:
+    get:
+      operationId: getReportHistoryByReportId
+      security:
+        - FirebaseAuthentication: []
+      tags:
+        - ReportHistory
+      parameters:
+        - $ref: '#/components/parameters/DO_NOT_USE_THIS_authorization'
+        - name: reportId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of report histories by report ID
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TodoReportHistory'
+        '404':
+          description: Not Found
+
   /user/dxcore/cronJobWeekly:
     get:
       summary: Cron Job to save dxcore user data
@@ -2161,5 +2290,34 @@ components:
           format: date-time
       required:
         - reportId
+        - createdAt
+        - updatedAt
+    TodoReportHistoryBody:
+      title: TodoReportHistoryBody
+      type: object
+      properties:
+        userId:
+          type: string
+        reportId:
+          type: string
+      required:
+        - userId
+        - reportId
+    TodoReportHistory:
+      title: TodoReportHistory
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/TodoReportBody'
+      properties:
+        reportHistoryId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - reportHistoryId
         - createdAt
         - updatedAt

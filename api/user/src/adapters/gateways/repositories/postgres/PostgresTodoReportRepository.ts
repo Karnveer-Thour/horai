@@ -1,5 +1,6 @@
 import { injectable } from 'inversify';
 import { TodoReport as DomainReport } from '../../../../domains/TodoReport';
+import { TodoReportHistory } from '../../../../domains/TodoReportHistory';
 import { dbConnection } from '../../../../infrastructures/config/IoC/inversify.config';
 import { transformTodoReportFromDomain, transformTodoReportToDomain } from './transformers/ReportTransformers';
 import { PaginationObj } from '../../../../domains/dtos/PageinatedListDTO';
@@ -12,6 +13,20 @@ export class PostgresTodoReportRepository {
         if (!report) return;
 
         return transformTodoReportToDomain(report);
+    };
+
+    public saveWithHistory = async (report: DomainReport, reportHistory: TodoReportHistory): Promise<void> => {
+        const prisma = dbConnection.getInstance();
+        const todoReport = transformTodoReportFromDomain(report);
+
+        await prisma.$transaction([
+            prisma.todoReport.create({
+                data: todoReport,
+            }),
+            prisma.reportHistory.create({
+                data: reportHistory,
+            }),
+        ]);
     };
 
     public save = async (ex: DomainReport): Promise<void> => {
@@ -31,7 +46,7 @@ export class PostgresTodoReportRepository {
         reportType?: string,
     ): Promise<DomainReport[]> => {
         const whereCondition: any = {
-                isActive: true,
+            isActive: true,
         };
 
         if (searchText) {

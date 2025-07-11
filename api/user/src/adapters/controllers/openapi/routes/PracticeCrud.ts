@@ -6,6 +6,7 @@ import {
     dateTimeRepository,
     todoReportRepository,
     userRepository,
+    todoReportHistoryRepository,
 } from '../../../../infrastructures/config/IoC/inversify.config';
 import { Service } from './Service';
 import { GetReportById } from '../../../../usecases/GetReportById';
@@ -16,7 +17,11 @@ import { GetAllReports } from '../../../../usecases/GetAllReports';
 export const createReport = async (input: { authorization: string; todoReportBody: TodoReportBody }) => {
     try {
         const loggedInUser = await Service.loggedInUser(input.authorization);
-        const usecase = new CreateReport(dateTimeRepository, todoReportRepository, userRepository);
+        const usecase = new CreateReport(
+            dateTimeRepository,
+            todoReportRepository,
+            userRepository,
+        );
         const res = await usecase.execute(input.todoReportBody, loggedInUser);
         return Service.successResponse(res, 200);
     } catch (e) {

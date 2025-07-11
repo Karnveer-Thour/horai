@@ -1,9 +1,9 @@
-import { LoggedInUser } from '@scheme-verge-inc/firebase-authenticator';
+import { LoggedInUser } from '../domains/LoggedInUser';
 import { UnauthorizedError } from './errors/UnauthorizedError';
-import { TodoReportRepository } from './repositories/TodoReportRepository';
+import { TodoReportHistoryRepository } from './repositories/TodoReportRepositoryHistory';
 
-export class GetAllReports {
-    constructor(readonly todoReportRepository: TodoReportRepository) {}
+export class GetAllReportsHistories {
+    constructor(readonly todoReportHistoryRepository: TodoReportHistoryRepository) {}
 
     public execute = async (
         page: number = 1,
@@ -15,11 +15,11 @@ export class GetAllReports {
         if (!user) {
             throw new UnauthorizedError();
         }
-        const reports = await this.todoReportRepository.getAllWithPagination(
+        const reportsHistories = await this.todoReportHistoryRepository.getAllWithPagination(
             { page: page, pageSize: limit },
             searchText,
             reportType,
         );
-        return reports;
+        return reportsHistories;
     };
 }

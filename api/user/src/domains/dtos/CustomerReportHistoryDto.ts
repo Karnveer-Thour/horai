@@ -1,21 +1,26 @@
 import { Components } from '../../adapters/controllers/openapi/typings/schema';
-import TodoReport = Components.Schemas.TodoReport;
+import TodoReportHistory = Components.Schemas.TodoReportHistory;
 
-export class AdminReportDto {
+export class customerReportHistoryDto {
     name: string | undefined;
-    Smbid: string | undefined;
     reportLink: string | undefined;
     reportType: 'PDF' | 'LookerStudio' | undefined;
     reportId: string | undefined;
+    updatedBy: string | undefined;
     createdAt: string | undefined; // date-time
     updatedAt: string | undefined;
 
-    constructor(input: TodoReport) {
-        this.reportId = input.reportType;
+    constructor(
+        input: Pick<
+            TodoReportHistory,
+            'reportHistoryId' | 'name' | 'reportLink' | 'reportType' | 'createdAt' | 'updatedAt'
+        > & { updatedBy: string },
+    ) {
+        this.reportId = input.reportHistoryId;
         this.name = input.name;
-        this.Smbid = input.Smbid;
         this.reportLink = input.reportLink;
         this.reportType = input.reportType;
+        this.updatedBy = input.updatedBy;
         this.createdAt = input.createdAt;
         this.updatedAt = input.updatedAt;
     }
