@@ -1,7 +1,6 @@
 import { UnauthorizedError } from './errors/UnauthorizedError';
 import { TodoReportHistoryRepository } from './repositories/TodoReportRepositoryHistory';
 import { DateTimeRepository } from './repositories/DateTimeRepository';
-import { ReportHistory } from '@prisma/client';
 import { NotFoundError } from './errors/NotFoundError';
 import { TodoReportHistory } from '../domains/TodoReportHistory';
 import { LoggedInUser } from '../domains/LoggedInUser';
@@ -27,6 +26,8 @@ export class GetReportHistoryById {
             reportHistory.userId,
             reportHistory.reportId,
             now,
+            reportHistory.report,
+            reportHistory.updatedBy,
         );
 
         if (user.isSv() || user.isSmb() || user.isAmo()) {

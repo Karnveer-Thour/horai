@@ -1,19 +1,15 @@
 import { ReportHistory } from '@prisma/client';
-
 import { TodoReportHistory as HistoryDomainReport } from '../../../../../domains/TodoReportHistory';
-import { TodoReportType } from '../../../../../domains/TodoReport';
 
-export const transformTodoReportHistoryToDomain = (item: ReportHistory): HistoryDomainReport =>
+export const transformTodoReportHistoryToDomain = (item: any): HistoryDomainReport =>
     new HistoryDomainReport({
         reportId: item.reportId,
-        reportHistoryId: item.reportHistoryId,
+        report: item?.report,
         userId: item.userId,
+        reportHistoryId: item.reportHistoryId,
+        updatedBy: item.updatedBy,
         createdAt: item.createdAt,
         updatedAt: item.updatedAt,
-        smbId: undefined,
-        name: undefined,
-        reportLink: undefined,
-        reportType: undefined,
     });
 
 export const transformTodoReportHistoryFromDomain = (d: HistoryDomainReport): ReportHistory => {

@@ -15,19 +15,28 @@ export class PostgresTodoReportRepository {
         return transformTodoReportToDomain(report);
     };
 
-    public saveWithHistory = async (report: DomainReport, reportHistory: TodoReportHistory): Promise<void> => {
-        const prisma = dbConnection.getInstance();
-        const todoReport = transformTodoReportFromDomain(report);
+    public saveWithHistory = async (
+  report: DomainReport,
+  reportHistory: TodoReportHistory,
+): Promise<void> => {
+  const prisma = dbConnection.getInstance();
+  const todoReport = transformTodoReportFromDomain(report);
 
-        await prisma.$transaction([
-            prisma.todoReport.create({
-                data: todoReport,
-            }),
-            prisma.reportHistory.create({
-                data: reportHistory,
-            }),
-        ]);
-    };
+  await prisma.$transaction([
+    prisma.todoReport.create({
+      data: todoReport,
+    }),
+    prisma.reportHistory.create({
+      data: {
+        reportHistoryId: reportHistory.reportHistoryId,
+        reportId: reportHistory.reportId,
+        userId: reportHistory.userId,
+        createdAt: reportHistory.createdAt,
+        updatedAt: reportHistory.updatedAt,
+      },
+    }),
+  ]);
+};
 
     public save = async (ex: DomainReport): Promise<void> => {
         const prisma = dbConnection.getInstance();

@@ -42,18 +42,18 @@ export class PostgresTodoReportHistoryRepository {
         reportType?: string,
     ): Promise<DomainReport[]> => {
         const whereCondition: any = {
-            isActive: true,
+            report: {}, // filtering inside the related report model
         };
 
         if (searchText) {
-            whereCondition.name = {
+            whereCondition.report.name = {
                 contains: searchText,
                 mode: 'insensitive',
             };
         }
 
         if (reportType) {
-            whereCondition.reportType = reportType;
+            whereCondition.report.reportType = reportType;
         }
 
         const prisma = dbConnection.getInstance();
